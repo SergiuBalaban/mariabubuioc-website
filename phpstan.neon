@@ -1,0 +1,19 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+    - phpstan-baseline.neon
+
+parameters:
+    paths:
+        - app
+        - config
+        - database
+        - routes
+
+    # Level 9 is the highest level
+    level: 5
+
+    excludePaths:
+        - storage/*
+
+    reportUnmatchedIgnoredErrors: false
