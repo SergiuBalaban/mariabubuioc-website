@@ -22,7 +22,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 #[UsePolicy(CategoryPolicy::class)]
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
