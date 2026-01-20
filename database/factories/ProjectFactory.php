@@ -6,7 +6,9 @@ use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/** @mixin Project */
+/**
+ * @extends Factory<Project>
+ */
 class ProjectFactory extends Factory
 {
     public function definition(): array

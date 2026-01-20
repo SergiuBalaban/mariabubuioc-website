@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Http\Resources\CategoryResource;
 use App\Policies\CategoryPolicy;
 use Carbon\Carbon;
+use Database\Factories\CategoryFactory;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 #[UseResource(CategoryResource::class)]
 #[UsePolicy(CategoryPolicy::class)]
+#[UseFactory(CategoryFactory::class)]
 class Category extends Model
 {
     use HasFactory;

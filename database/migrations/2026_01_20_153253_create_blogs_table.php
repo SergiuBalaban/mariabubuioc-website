@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('blogs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained('categories')->nullOnDelete();
             $table->string('title')->unique();
             $table->string('cover')->nullable();
-            $table->json('details')->nullable();
-            $table->string('price')->nullable();
+            $table->string('author')->nullable();
             $table->longText('content')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('blogs');
     }
 };
