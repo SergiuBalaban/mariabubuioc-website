@@ -67,7 +67,7 @@
         "stan": [
             "@php vendor/bin/phpstan analyse --memory-limit=2G"
         ],
-        "test": [
+        "format": [
             "@php artisan config:clear --ansi",
             "@test:lint",
             "@stan",
