@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 
+import SocialLinks from '@/components/SocialLinks.vue';
 import { about, blog, home } from '@/routes';
 import { page as homePage } from '@/routes/home';
 import { detail as projectDetail } from '@/routes/project';
@@ -31,6 +32,7 @@ const props = defineProps<{
                         <Link :href="about().url" class="block hover:underline">About</Link>
                         <Link :href="blog().url" class="block hover:underline">Blog</Link>
                     </nav>
+                    <SocialLinks />
                 </div>
             </aside>
 
@@ -42,7 +44,7 @@ const props = defineProps<{
                         :href="projectDetail.url(project.id)"
                         class="group relative block overflow-hidden rounded-lg shadow-sm transition-all hover:shadow-md"
                     >
-                        <div class="aspect-[9/5] w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
+                        <div class="aspect-9/5 w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
                             <img
                                 :src="project.cover"
                                 :alt="project.title"

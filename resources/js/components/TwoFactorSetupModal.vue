@@ -272,7 +272,6 @@ watch(
                                 <InputError
                                     :message="
                                         errors?.confirmTwoFactorAuthentication
-                                            ?.code
                                     "
                                 />
                             </div>

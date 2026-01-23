@@ -87,7 +87,7 @@ if (props.project.data.price) {
 
                     <div v-if="images && images.length" class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div v-for="(img, idx) in images" :key="idx" class="aspect-square overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
-                            <img :src="img" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                            <img :src="img" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"  alt=""/>
                         </div>
                     </div>
                 </div>

@@ -43,7 +43,7 @@ defineProps<{
 
             <main id="main" class="flex-1 p-6 lg:p-12">
                 <div class="max-w-4xl mx-auto">
-                    <article>
+                    <article article="article">
                         <div class="mb-8 overflow-hidden rounded-lg shadow-sm aspect-[16/9]">
                             <img :src="article.data.cover" :alt="article.data.title" class="h-full w-full object-cover" />
                         </div>
@@ -70,7 +70,7 @@ defineProps<{
 
                             <!-- Images from Article (if any) -->
                             <div v-if="article.data.content.images && article.data.content.images.length > 0" class="grid grid-cols-1 gap-8 my-12">
-                                <img v-for="(img, idx) in article.data.content.images" :key="idx" :src="img" class="rounded-lg shadow-sm w-full" />
+                                <img v-for="(img, idx) in article.data.content.images" :key="idx" :src="img" class="rounded-lg shadow-sm w-full"  alt=""/>
                             </div>
 
                             <!-- English Content -->
