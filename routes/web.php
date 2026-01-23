@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Resources\BlogResource;
+use App\Http\Resources\ProjectResource;
+use App\Models\Blog;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -9,6 +13,34 @@ Route::get('/', function () {
         'canRegister' => Features::enabled(Features::registration()),
     ]);
 })->name('home');
+
+Route::get('/home', function () {
+    return Inertia::render('Home', [
+        'projects' => ProjectResource::collection(Project::with('category')->get()),
+    ]);
+})->name('home.page');
+
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
+
+Route::get('/blog', function () {
+    return Inertia::render('Blog', [
+        'articles' => BlogResource::collection(Blog::all()),
+    ]);
+})->name('blog');
+
+Route::get('/blogs/{blog}', function (Blog $blog) {
+    return Inertia::render('Article', [
+        'article' => new BlogResource($blog),
+    ]);
+})->name('blog.article');
+
+Route::get('/projects/{project}', function (Project $project) {
+    return Inertia::render('Project', [
+        'project' => new ProjectResource($project->load('category')),
+    ]);
+})->name('project.detail');
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');

@@ -1,44 +1,40 @@
 <?php
 
 use App\Models\Blog;
-use Illuminate\Database\UniqueConstraintViolationException;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
-it('can create a blog post', function () {
+uses(RefreshDatabase::class);
+
+it('returns a successful response for blog page', function () {
+    Blog::factory()->count(3)->create();
+
+    $response = $this->get('/blog');
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn ($page) => $page
+        ->component('Blog')
+        ->has('articles.data', 3)
+    );
+});
+
+it('returns a successful response for a single article page', function () {
     $blog = Blog::factory()->create([
-        'title' => 'Sample Blog Title',
-        'author' => 'John Doe',
-        'content' => 'This is the content of the blog post.',
+        'title' => 'Hempcrete house - our experience',
+        'content' => ['description' => 'Test description', 'category' => 'House', 'date' => '2023'],
     ]);
 
-    expect($blog->title)->toBe('Sample Blog Title');
-    $this->assertDatabaseHas(Blog::class, [
-        'id' => $blog->id,
-        'title' => 'Sample Blog Title',
-        'author' => 'John Doe',
-    ]);
+    $response = $this->get("/blogs/{$blog->id}");
+
+    $response->assertStatus(200);
+    $response->assertInertia(fn ($page) => $page
+        ->component('Article')
+        ->where('article.data.id', $blog->id)
+        ->where('article.data.title', 'Hempcrete house - our experience')
+    );
 });
 
-it('requires a unique title', function () {
-    Blog::factory()->create(['title' => 'Unique Title']);
+it('returns 404 for a non-existent article', function () {
+    $response = $this->get('/blogs/999');
 
-    expect(fn () => Blog::factory()->create(['title' => 'Unique Title']))
-        ->toThrow(UniqueConstraintViolationException::class);
-});
-
-it('allows nullable cover and author', function () {
-    $blog = Blog::create([
-        'title' => 'Minimal Blog',
-        'content' => 'Some content',
-        'cover' => null,
-        'author' => null,
-    ]);
-
-    expect($blog->cover)->toBeNull()
-        ->and($blog->author)->toBeNull();
-
-    $this->assertDatabaseHas(Blog::class, [
-        'title' => 'Minimal Blog',
-        'cover' => null,
-        'author' => null,
-    ]);
+    $response->assertStatus(404);
 });

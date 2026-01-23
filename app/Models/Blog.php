@@ -37,4 +37,11 @@ class Blog extends Model
         'author',
         'content',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'content' => 'array',
+        ];
+    }
 }
