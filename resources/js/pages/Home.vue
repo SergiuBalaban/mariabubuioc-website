@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 
-import SocialLinks from '@/components/SocialLinks.vue';
-import { about, blog, home } from '@/routes';
-import { page as homePage } from '@/routes/home';
 import { detail as projectDetail } from '@/routes/project';
+
+import Sidebar from './Sidebar.vue';
 
 const props = defineProps<{
     projects: {
@@ -22,19 +21,7 @@ const props = defineProps<{
     <Head title="Home" />
     <div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-[#EDEDEC]">
         <div class="flex flex-col lg:flex-row">
-            <!-- Sidebar placeholder (since the original code has includes/sidebar and includes/projects-filter) -->
-            <aside id="sidebar" class="w-full lg:w-64 p-6 border-b lg:border-b-0 lg:border-r border-[#19140015] dark:border-[#3E3E3A]">
-                <div class="sticky top-6">
-                    <h2 class="text-xl font-bold mb-4">Maria Bubuioc</h2>
-                    <nav class="space-y-2">
-                        <Link :href="home().url" class="block hover:underline">Welcome</Link>
-                        <Link :href="homePage().url" class="block font-bold">Works</Link>
-                        <Link :href="about().url" class="block hover:underline">About</Link>
-                        <Link :href="blog().url" class="block hover:underline">Blog</Link>
-                    </nav>
-                    <SocialLinks />
-                </div>
-            </aside>
+            <Sidebar />
 
             <main id="main" class="flex-1 p-6 lg:p-12">
                 <div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
