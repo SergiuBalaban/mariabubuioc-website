@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 
+import aboutMePicture from '@/assets/images/about/about_me.jpg';
+
 import Sidebar from './Sidebar.vue';
 </script>
 
@@ -59,7 +61,7 @@ import Sidebar from './Sidebar.vue';
                             class="aspect-square overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800"
                         >
                             <img
-                                src="/img/about/about_me.jpg"
+                                :src="aboutMePicture"
                                 alt="Maria Bubuioc"
                                 class="h-full w-full object-cover"
                             />
