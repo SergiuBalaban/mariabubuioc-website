@@ -433,7 +433,6 @@ $pages->assertNoJavascriptErrors()->assertNoConsoleLogs();
 
     <div v-if="wasSuccessful">User created successfully!</div>
 </Form>
-
 </code-snippet>
 
 === tailwindcss/core rules ===
@@ -486,8 +485,8 @@ $pages->assertNoJavascriptErrors()->assertNoConsoleLogs();
 - Tailwind v4 removed deprecated utilities. Do not use the deprecated option; use the replacement.
 - Opacity values are still numeric.
 
-| Deprecated |	Replacement |
-|------------+--------------|
+| Deprecated | Replacement |
+|------------|--------------|
 | bg-opacity-* | bg-black/* |
 | text-opacity-* | text-black/* |
 | border-opacity-* | border-black/* |
