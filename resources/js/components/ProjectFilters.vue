@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
     activeFilter: string;
     categories: Array<{ label: string; value: string }>;
 }>();
