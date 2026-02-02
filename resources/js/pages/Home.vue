@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
 
+import ProjectFilters from '@/components/ProjectFilters.vue';
 import { detail as projectDetail } from '@/routes/project';
 
 import Sidebar from './Sidebar.vue';
@@ -15,18 +17,48 @@ const props = defineProps<{
         }>;
     };
 }>();
+
+const activeFilter = ref('*');
+
+const categories = computed(() => {
+    const uniqueCategories = [...new Set(props.projects.data.map(p => p.category_name))];
+    return [
+        { label: 'All', value: '*' },
+        ...uniqueCategories.map(cat => ({ label: cat, value: cat }))
+    ];
+});
+
+const filteredProjects = computed(() => {
+    if (activeFilter.value === '*') {
+        return props.projects.data;
+    }
+    return props.projects.data.filter(project => project.category_name === activeFilter.value);
+});
+
+const handleFilterChange = (filter: string) => {
+    activeFilter.value = filter;
+};
 </script>
 
 <template>
     <Head title="Home" />
     <div class="min-h-screen bg-white dark:bg-[#0a0a0a] text-[#1b1b18] dark:text-[#EDEDEC]">
         <div class="flex flex-col lg:flex-row">
-            <Sidebar />
+            <div class="w-full lg:w-64">
+                <Sidebar />
+                <div class="p-6">
+                    <ProjectFilters
+                        :active-filter="activeFilter"
+                        :categories="categories"
+                        @filter-change="handleFilterChange"
+                    />
+                </div>
+            </div>
 
             <main id="main" class="flex-1 p-6 lg:p-12">
                 <div id="works-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                     <Link
-                        v-for="project in props.projects.data"
+                        v-for="project in filteredProjects"
                         :key="project.id"
                         :href="projectDetail.url(project.id)"
                         class="group relative block overflow-hidden rounded-lg shadow-sm transition-all hover:shadow-md"

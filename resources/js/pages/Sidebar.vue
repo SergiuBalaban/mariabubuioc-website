@@ -13,8 +13,8 @@ import { page as homePage } from '@/routes/home';
         class="w-full border-b border-[#19140015] p-6 lg:w-64 lg:border-r lg:border-b-0 dark:border-[#3E3E3A]"
     >
         <div class="sticky top-6">
-<!--            <h2 class="mb-4 text-xl font-bold">Maria Bubuioc</h2>-->
-            <img :src="logoPic" alt="logo" />
+            <h2 class="mb-4 text-xl font-bold">Maria Bubuioc</h2>
+<!--            <img :src="logoPic" alt="logo" />-->
             <nav class="space-y-2">
                 <Link :href="homePage().url" class="block font-bold"
                     >Works</Link
