@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 
-import logoPic from '@/assets/images/logo.png';
 import SocialLinks from '@/components/SocialLinks.vue';
 import { about, blog } from '@/routes';
 import { page as homePage } from '@/routes/home';
@@ -14,7 +13,6 @@ import { page as homePage } from '@/routes/home';
     >
         <div class="sticky top-6">
             <h2 class="mb-4 text-xl font-bold">Maria Bubuioc</h2>
-<!--            <img :src="logoPic" alt="logo" />-->
             <nav class="space-y-2">
                 <Link :href="homePage().url" class="block font-bold"
                     >Works</Link
