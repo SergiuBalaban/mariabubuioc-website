@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Blog;
-use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -20,8 +19,8 @@ class DatabaseSeeder extends Seeder
         //            'name' => 'Test User',
         //            'email' => 'test@example.com',
         //        ]);
-//        $this->call(ProjectSeeder::class);
-//        $this->call(BlogSeeder::class);
+        //        $this->call(ProjectSeeder::class);
+        //        $this->call(BlogSeeder::class);
 
         Blog::query()->delete();
         Blog::factory(10)->create();

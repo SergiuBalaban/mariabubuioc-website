@@ -42,7 +42,7 @@ const props = defineProps<{
                         <div class="flex flex-col gap-8">
                             <Link
                                 :href="blogArticle.url(article.id)"
-                                class="relative block aspect-[16/9] overflow-hidden rounded-lg shadow-sm transition-all hover:shadow-md"
+                                class="relative block aspect-video overflow-hidden rounded-lg shadow-sm transition-all hover:shadow-md"
                             >
                                 <img
                                     :src="article.cover"

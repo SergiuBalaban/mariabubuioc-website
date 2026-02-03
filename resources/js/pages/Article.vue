@@ -37,7 +37,7 @@ defineProps<{
                 <div class="mx-auto max-w-4xl">
                     <article article="article">
                         <div
-                            class="mb-8 aspect-[16/9] overflow-hidden rounded-lg shadow-sm"
+                            class="mb-8 aspect-video overflow-hidden rounded-lg shadow-sm"
                         >
                             <img
                                 :src="article.data.cover"
