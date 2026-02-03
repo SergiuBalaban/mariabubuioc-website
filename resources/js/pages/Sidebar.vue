@@ -2,8 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 
 import SocialLinks from '@/components/SocialLinks.vue';
-import { about, blog } from '@/routes';
-import { page as homePage } from '@/routes/home';
+import { about, blog, home } from '@/routes';
 </script>
 
 <template>
@@ -14,7 +13,7 @@ import { page as homePage } from '@/routes/home';
         <div class="sticky top-6">
             <h2 class="mb-4 text-xl font-bold">Maria Bubuioc</h2>
             <nav class="space-y-2">
-                <Link :href="homePage().url" class="block font-bold"
+                <Link :href="home().url" class="block font-bold"
                     >Works</Link
                 >
                 <Link :href="about().url" class="block hover:underline"

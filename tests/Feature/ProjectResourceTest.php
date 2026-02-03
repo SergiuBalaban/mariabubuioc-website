@@ -7,7 +7,7 @@ it('returns projects on home page', function () {
     $category = Category::factory()->create(['name' => 'Furniture']);
     Project::factory()->count(3)->create(['category_id' => $category->id]);
 
-    $response = $this->get('/home');
+    $response = $this->get('/');
 
     $response->assertStatus(200);
     $response->assertInertia(fn ($page) => $page

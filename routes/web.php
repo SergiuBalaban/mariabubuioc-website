@@ -6,19 +6,12 @@ use App\Models\Blog;
 use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Laravel\Fortify\Features;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canRegister' => Features::enabled(Features::registration()),
-    ]);
-})->name('home');
-
-Route::get('/home', function () {
     return Inertia::render('Home', [
         'projects' => ProjectResource::collection(Project::with('category')->get()),
     ]);
-})->name('home.page');
+})->name('home');
 
 Route::get('/about', function () {
     return Inertia::render('About');
