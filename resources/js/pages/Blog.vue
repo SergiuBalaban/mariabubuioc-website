@@ -12,11 +12,13 @@ const props = defineProps<{
             title: string;
             author: string;
             cover: string;
-            content: {
+            details: {
                 description: string;
                 category: string;
+                content_ro: string;
                 [key: string]: any;
             };
+            content: string;
         }>;
     };
 }>();
@@ -74,13 +76,15 @@ const props = defineProps<{
                                         class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
                                     ></span>
                                     <span class="category">{{
-                                        article.content.category
+                                        article.details.category
                                     }}</span>
                                 </div>
                                 <p
                                     class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"
                                 >
-                                    {{ article.content.description }}
+                                    {{
+                                        article.details.description
+                                    }}
                                 </p>
                                 <Link
                                     :href="blogArticle.url(article.id)"

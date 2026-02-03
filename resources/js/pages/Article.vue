@@ -10,7 +10,7 @@ defineProps<{
             title: string;
             author: string;
             cover: string;
-            content: {
+            details: {
                 description: string;
                 category: string;
                 date: string;
@@ -19,6 +19,7 @@ defineProps<{
                 images?: string[];
                 [key: string]: any;
             };
+            content: string;
         };
     };
 }>();
@@ -59,7 +60,7 @@ defineProps<{
                                     class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
                                 ></li>
                                 <li class="time">
-                                    {{ article.data.content.date }}
+                                    {{ article.data.details.date }}
                                 </li>
                                 <li
                                     class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
@@ -68,7 +69,7 @@ defineProps<{
                                     <span
                                         class="rounded bg-gray-100 px-2 py-1 text-xs font-semibold tracking-wider uppercase dark:bg-gray-800"
                                         >{{
-                                            article.data.content.category
+                                            article.data.details.category
                                         }}</span
                                     >
                                 </li>
@@ -78,7 +79,7 @@ defineProps<{
                         <div class="space-y-12">
                             <!-- Romanian Content -->
                             <div
-                                v-if="article.data.content.content_ro"
+                                v-if="article.data.details.content_ro"
                                 class="prose dark:prose-invert max-w-none"
                             >
                                 <p
@@ -88,20 +89,20 @@ defineProps<{
                                 </p>
                                 <div
                                     class="space-y-6 text-lg leading-relaxed"
-                                    v-html="article.data.content.content_ro"
+                                    v-html="article.data.details.content_ro"
                                 ></div>
                             </div>
 
                             <!-- Images from Article (if any) -->
                             <div
                                 v-if="
-                                    article.data.content.images &&
-                                    article.data.content.images.length > 0
+                                    article.data.details.images &&
+                                    article.data.details.images.length > 0
                                 "
                                 class="my-12 grid grid-cols-1 gap-8"
                             >
                                 <img
-                                    v-for="(img, idx) in article.data.content
+                                    v-for="(img, idx) in article.data.details
                                         .images"
                                     :key="idx"
                                     :src="img"
@@ -112,7 +113,7 @@ defineProps<{
 
                             <!-- English Content -->
                             <div
-                                v-if="article.data.content.content_en"
+                                v-if="article.data.details.content_en"
                                 class="prose dark:prose-invert max-w-none pb-12"
                             >
                                 <p
@@ -122,7 +123,7 @@ defineProps<{
                                 </p>
                                 <div
                                     class="space-y-6 text-lg leading-relaxed"
-                                    v-html="article.data.content.content_en"
+                                    v-html="article.data.details.content_en"
                                 ></div>
                             </div>
                         </div>
