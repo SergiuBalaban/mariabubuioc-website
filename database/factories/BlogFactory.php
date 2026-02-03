@@ -16,7 +16,11 @@ class BlogFactory extends Factory
             'cover' => $this->faker->imageUrl(),
             'title' => $this->faker->unique()->sentence(),
             'author' => $this->faker->name(),
-            'content' => $this->faker->paragraphs(3, true),
+            'content' => [
+                'description' => $this->faker->paragraph(),
+                'category' => $this->faker->randomElement(['Design', 'Technology', 'Art', 'Architecture']),
+            ],
+            //            'content' => $this->faker->paragraphs(3, true),
         ];
     }
 }
