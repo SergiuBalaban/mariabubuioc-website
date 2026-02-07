@@ -39,4 +39,17 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/admin/blogs', function () {
+    return Inertia::render('Admin/Blogs', [
+        //        'blogs' => BlogResource::collection(Blog::paginate(10)),
+        'blogs' => BlogResource::collection(Blog::paginate(10))->response()->getData(),
+    ]);
+})->middleware('auth')->name('admin.blogs');
+
+Route::delete('/admin/blogs/{blog}', function (Blog $blog) {
+    $blog->delete();
+
+    return redirect()->route('admin.blogs');
+})->middleware('auth')->name('admin.blogs.destroy');
+
 require __DIR__.'/settings.php';
