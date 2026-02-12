@@ -24,6 +24,6 @@ class DatabaseSeeder extends Seeder
         //        $this->call(BlogSeeder::class);
 
         Blog::query()->delete();
-        Blog::factory(10)->create();
+        Blog::factory(20)->create();
     }
 }

@@ -41,8 +41,7 @@ Route::get('dashboard', function () {
 
 Route::get('/admin/blogs', function () {
     return Inertia::render('Admin/Blogs', [
-        //        'blogs' => BlogResource::collection(Blog::paginate(10)),
-        'blogs' => BlogResource::collection(Blog::paginate(10))->response()->getData(),
+        'blogs' => BlogResource::collection(Blog::query()->orderByDesc('id')->paginate(10))->response()->getData(),
     ]);
 })->middleware('auth')->name('admin.blogs');
 

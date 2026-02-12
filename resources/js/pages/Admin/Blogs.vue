@@ -8,8 +8,6 @@ import { type BreadcrumbItem } from '@/types';
 interface Blog {
     id: number;
     title: string;
-    slug: string;
-    excerpt: string;
     created_at: string;
     updated_at: string;
 }
@@ -17,14 +15,26 @@ interface Blog {
 interface BlogsProps {
     blogs: {
         data: Blog[];
-        current_page: number;
-        last_page: number;
-        per_page: number;
-        total: number;
         links: Array<{
-            url: string | null;
-            label: string;
-            active: boolean;
+            first: string | null;
+            last: string | null;
+            prev: string | null;
+            next: string | null;
+        }>;
+        meta: Array<{
+            current_page: number;
+            from: number;
+            last_page: number;
+            links: Array<{
+                url: string | null;
+                label: string | null;
+                page: number;
+                active: boolean;
+            }>;
+            path: string | null;
+            per_page: number;
+            to: number;
+            total: number;
         }>;
     };
 }
@@ -130,23 +140,28 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                 <!-- Pagination -->
                 <div
-                    v-if="blogs.last_page > 1"
+                    v-if="blogs.meta.last_page > 1"
                     class="flex items-center justify-between border-t border-sidebar-border/70 px-4 py-3 dark:border-sidebar-border"
                 >
                     <div class="text-sm text-muted-foreground">
                         Showing
-                        {{ (blogs.current_page - 1) * blogs.per_page + 1 }} to
+                        {{
+                            (blogs.meta.current_page - 1) *
+                                blogs.meta.per_page +
+                            1
+                        }}
+                        to
                         {{
                             Math.min(
-                                blogs.current_page * blogs.per_page,
-                                blogs.total,
+                                blogs.meta.current_page * blogs.meta.per_page,
+                                blogs.meta.total,
                             )
                         }}
-                        of {{ blogs.total }} results
+                        of {{ blogs.meta.total }} results
                     </div>
                     <div class="flex items-center gap-2">
                         <Link
-                            v-for="link in blogs.links"
+                            v-for="link in blogs.meta.links"
                             :key="link.label"
                             :href="link.url || '#'"
                             :class="[
