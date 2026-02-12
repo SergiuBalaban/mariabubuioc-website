@@ -45,6 +45,24 @@ Route::get('/admin/blogs', function () {
     ]);
 })->middleware('auth')->name('admin.blogs');
 
+Route::get('/admin/blogs/{blog}', function (Blog $blog) {
+    return Inertia::render('Admin/Article', [
+        'blog' => new BlogResource($blog)->response()->getData()->data,
+    ]);
+})->middleware('auth')->name('admin.blogs.edit');
+
+Route::put('/admin/blogs/{blog}', function (Blog $blog) {
+    $blog->update(request()->validate([
+        'cover' => 'nullable|string',
+        'title' => 'required|string|max:255',
+        'author' => 'nullable|string|max:255',
+        'content' => 'nullable|array',
+        'details' => 'nullable|array',
+    ]));
+
+    return redirect()->route('admin.blogs.edit', $blog);
+})->middleware('auth')->name('admin.blogs.update');
+
 Route::delete('/admin/blogs/{blog}', function (Blog $blog) {
     $blog->delete();
 

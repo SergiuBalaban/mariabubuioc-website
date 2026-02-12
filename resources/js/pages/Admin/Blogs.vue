@@ -104,7 +104,12 @@ const breadcrumbs: BreadcrumbItem[] = [
                             >
                                 <td class="px-4 py-3">{{ blog.id }}</td>
                                 <td class="px-4 py-3 font-medium">
-                                    {{ blog.title }}
+                                    <Link
+                                        :href="`/admin/blogs/${blog.id}`"
+                                        class="hover:text-primary hover:underline"
+                                    >
+                                        {{ blog.title }}
+                                    </Link>
                                 </td>
                                 <td
                                     class="px-4 py-3 text-sm text-muted-foreground"
