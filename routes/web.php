@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Home', [
-        'projects' => ProjectResource::collection(Project::with('category')->get()),
+        'projects' => ProjectResource::collection(Project::with('category')->orderByDesc('id')->get()),
     ]);
 })->name('home');
 
@@ -19,7 +19,7 @@ Route::get('/about', function () {
 
 Route::get('/blog', function () {
     return Inertia::render('Blog', [
-        'articles' => BlogResource::collection(Blog::all()),
+        'articles' => BlogResource::collection(Blog::query()->orderByDesc('id')->paginate(10))->response()->getData(),
     ]);
 })->name('blog');
 
@@ -47,7 +47,7 @@ Route::get('/admin/blogs', function () {
 
 Route::get('/admin/blogs/{blog}', function (Blog $blog) {
     return Inertia::render('Admin/Article', [
-        'blog' => new BlogResource($blog)->response()->getData()->data,
+        'blog' => (new BlogResource($blog))->response()->getData()->data,
     ]);
 })->middleware('auth')->name('admin.blogs.edit');
 
