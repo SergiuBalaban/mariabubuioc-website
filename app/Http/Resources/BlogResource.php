@@ -18,8 +18,8 @@ class BlogResource extends JsonResource
             'author' => $this->author,
             'content' => $this->content,
             'details' => $this->details,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->toFormattedDateString(),
+            'updated_at' => $this->updated_at->toFormattedDateString(),
         ];
     }
 }

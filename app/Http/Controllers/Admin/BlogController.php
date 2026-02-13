@@ -53,7 +53,7 @@ class BlogController extends Controller
             'cover' => 'nullable|string',
             'title' => 'nullable|string|max:255',
             'author' => 'nullable|string|max:255',
-            'content' => 'nullable|array',
+            'content' => 'nullable|string',
             'details' => 'nullable|array',
         ]));
 

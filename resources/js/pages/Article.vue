@@ -20,6 +20,8 @@ defineProps<{
                 [key: string]: any;
             };
             content: string;
+            created_at: string;
+            updated_at: string;
         };
     };
 }>();
@@ -53,14 +55,8 @@ defineProps<{
                             <ul
                                 class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400"
                             >
-                                <li class="author">
-                                    {{ article.data.author }}
-                                </li>
-                                <li
-                                    class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
-                                ></li>
                                 <li class="time">
-                                    {{ article.data.details.date }}
+                                    {{ article.data.created_at }}
                                 </li>
                                 <li
                                     class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
@@ -77,19 +73,13 @@ defineProps<{
                         </div>
 
                         <div class="space-y-12">
-                            <!-- Romanian Content -->
                             <div
-                                v-if="article.data.details.content_ro"
+                                v-if="article.data.content"
                                 class="prose dark:prose-invert max-w-none"
                             >
-                                <p
-                                    class="lead mb-4 text-lg font-bold text-gray-600 dark:text-gray-400"
-                                >
-                                    [RO]
-                                </p>
                                 <div
                                     class="space-y-6 text-lg leading-relaxed"
-                                    v-html="article.data.details.content_ro"
+                                    v-html="article.data.content"
                                 ></div>
                             </div>
 
@@ -109,22 +99,6 @@ defineProps<{
                                     class="w-full rounded-lg shadow-sm"
                                     alt=""
                                 />
-                            </div>
-
-                            <!-- English Content -->
-                            <div
-                                v-if="article.data.details.content_en"
-                                class="prose dark:prose-invert max-w-none pb-12"
-                            >
-                                <p
-                                    class="lead mb-4 text-lg font-bold text-gray-600 dark:text-gray-400"
-                                >
-                                    [EN]
-                                </p>
-                                <div
-                                    class="space-y-6 text-lg leading-relaxed"
-                                    v-html="article.data.details.content_en"
-                                ></div>
                             </div>
                         </div>
                     </article>
