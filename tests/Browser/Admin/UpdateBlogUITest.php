@@ -81,3 +81,20 @@ it('can click on blog title in list to navigate to edit page', function () {
         ->assertPathIs('/admin/blogs/'.$blog->id)
         ->assertSee('Edit Blog');
 });
+
+it('can update blog content using rich text editor', function () {
+    $user = User::factory()->create();
+    $blog = Blog::factory()->create([
+        'content' => '<p>Initial Content</p>',
+    ]);
+
+    $this->actingAs($user);
+    visit('/admin/blogs/'.$blog->id)
+        ->type('.ProseMirror', 'Updated Content')
+        ->press('Save Changes')
+        ->assertPathIs('/admin/blogs/'.$blog->id)
+        ->assertSee('Updated Content');
+
+    $updatedBlog = Blog::find($blog->id);
+    expect($updatedBlog->content)->toContain('Updated Content');
+});

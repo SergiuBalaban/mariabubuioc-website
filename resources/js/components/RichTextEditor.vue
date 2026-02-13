@@ -175,7 +175,7 @@ onBeforeUnmount(() => {
                 v-show="isHtmlView"
                 v-model="rawHtml"
                 @input="updateFromRawHtml"
-                class="w-full h-[300px] p-4 font-mono text-sm bg-transparent focus:outline-none resize-none"
+                class="w-full h-75 p-4 font-mono text-sm bg-transparent focus:outline-none resize-none"
             ></textarea>
         </div>
     </div>
