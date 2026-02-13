@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import axios from 'axios';
+import { ref } from 'vue';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
@@ -30,6 +32,34 @@ const form = useForm({
     details: JSON.stringify(props.blog.details, null, 2),
 });
 
+const uploading = ref(false);
+
+const handleFileUpload = async (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (!file) return;
+
+    uploading.value = true;
+    const formData = new FormData();
+    formData.append('cover', file);
+
+    try {
+        const response = await axios.post(
+            '/admin/blogs/upload-cover',
+            formData,
+            {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            },
+        );
+        form.cover = response.data.path;
+    } catch (error) {
+        console.error('Upload failed:', error);
+    } finally {
+        uploading.value = false;
+    }
+};
+
 const submit = () => {
     const data: Record<string, any> = {};
 
@@ -47,6 +77,7 @@ const submit = () => {
         data.details = form.details ? JSON.parse(form.details) : null;
     }
 
+    console.log(data);
     form.transform(() => data).put(`/admin/blogs/${props.blog.id}`);
 };
 
@@ -90,12 +121,45 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <label class="mb-2 block text-sm font-medium">
                                 Cover Image
                             </label>
-                            <div v-if="form.cover" class="mb-2">
+                            <div v-if="form.cover">
                                 <img
                                     :src="form.cover"
                                     alt="Cover"
-                                    class="h-96 w-full rounded object-cover"
+                                    class="mb-2 h-96 w-full rounded object-cover"
                                 />
+                                <button
+                                    type="button"
+                                    @click="form.cover = null"
+                                    class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
+                                >
+                                    Remove cover
+                                </button>
+                            </div>
+                            <div v-else>
+                                <div
+                                    class="mb-2 flex h-48 w-full items-center justify-center rounded border-2 border-dashed border-sidebar-border/70 dark:border-sidebar-border"
+                                >
+                                    <div class="text-center">
+                                        <p
+                                            class="text-sm text-muted-foreground"
+                                        >
+                                            No cover image
+                                        </p>
+                                    </div>
+                                </div>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    @change="handleFileUpload"
+                                    :disabled="uploading"
+                                    class="w-full text-sm"
+                                />
+                                <p
+                                    v-if="uploading"
+                                    class="mt-1 text-sm text-blue-600"
+                                >
+                                    Uploading...
+                                </p>
                             </div>
                             <div
                                 v-if="form.errors.cover"

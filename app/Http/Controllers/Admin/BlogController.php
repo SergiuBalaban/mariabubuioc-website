@@ -29,11 +29,29 @@ class BlogController extends Controller
         ]);
     }
 
+    public function uploadCover(Request $request)
+    {
+        $request->validate([
+            'cover' => 'required|image|max:10240',
+        ]);
+
+        $file = $request->file('cover');
+        $date = now()->format('Y-m-d');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $path = "source/img/blog/{$date}";
+
+        $file->move(public_path($path), $filename);
+
+        return response()->json([
+            'path' => "/{$path}/{$filename}",
+        ]);
+    }
+
     public function update(Request $request, Blog $blog): RedirectResponse
     {
         $blog->update(request()->validate([
             'cover' => 'nullable|string',
-            'title' => 'required|string|max:255',
+            'title' => 'nullable|string|max:255',
             'author' => 'nullable|string|max:255',
             'content' => 'nullable|array',
             'details' => 'nullable|array',

@@ -29,7 +29,6 @@ it('can update blog as authenticated user', function () {
     $blog = Blog::factory()->create([
         'title' => 'Original Title',
         'author' => 'Original Author',
-        'cover' => 'original-cover.jpg',
     ]);
 
     $this->actingAs($user);
@@ -37,7 +36,6 @@ it('can update blog as authenticated user', function () {
         ->assertSee('Original Title')
         ->type('#title', 'Updated Title')
         ->type('#author', 'Updated Author')
-        ->type('#cover', 'updated-cover.jpg')
         ->press('Save Changes')
         ->assertPathIs('/admin/blogs/'.$blog->id);
     //        ->assertSee('Updated Title');
@@ -46,7 +44,6 @@ it('can update blog as authenticated user', function () {
         'id' => $blog->id,
         'title' => 'Updated Title',
         'author' => 'Updated Author',
-        'cover' => 'updated-cover.jpg',
     ]);
 });
 
