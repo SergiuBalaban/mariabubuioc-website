@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useEditor, EditorContent } from '@tiptap/vue-3';
-import StarterKit from '@tiptap/starter-kit';
-import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
+import Link from '@tiptap/extension-link';
+import StarterKit from '@tiptap/starter-kit';
+import { useEditor, EditorContent } from '@tiptap/vue-3';
 import { onBeforeUnmount, ref, watch } from 'vue';
 
 const props = defineProps<{
@@ -183,9 +183,6 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* Basic prose styles if @tailwindcss/typography is not fully configured or to override */
-:deep(.prose) {
-    max-width: none;
-}
 :deep(.prose ul) {
     list-style-type: disc;
     padding-left: 1.5em;
