@@ -87,6 +87,25 @@ const breadcrumbs: BreadcrumbItem[] = [
                 >
                     <div class="space-y-4">
                         <div>
+                            <label class="mb-2 block text-sm font-medium">
+                                Cover Image
+                            </label>
+                            <div v-if="form.cover" class="mb-2">
+                                <img
+                                    :src="form.cover"
+                                    alt="Cover"
+                                    class="h-96 w-full rounded object-cover"
+                                />
+                            </div>
+                            <div
+                                v-if="form.errors.cover"
+                                class="mt-1 text-sm text-red-600"
+                            >
+                                {{ form.errors.cover }}
+                            </div>
+                        </div>
+
+                        <div>
                             <label
                                 for="title"
                                 class="mb-2 block text-sm font-medium"
@@ -126,27 +145,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 class="mt-1 text-sm text-red-600"
                             >
                                 {{ form.errors.author }}
-                            </div>
-                        </div>
-
-                        <div>
-                            <label
-                                for="cover"
-                                class="mb-2 block text-sm font-medium"
-                            >
-                                Cover URL
-                            </label>
-                            <input
-                                id="cover"
-                                v-model="form.cover"
-                                type="text"
-                                class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
-                            />
-                            <div
-                                v-if="form.errors.cover"
-                                class="mt-1 text-sm text-red-600"
-                            >
-                                {{ form.errors.cover }}
                             </div>
                         </div>
 
