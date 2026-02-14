@@ -179,8 +179,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     : '',
                             ]"
                             :disabled="!link.url"
-                            v-html="link.label"
-                        />
+                        >
+                            {{ link.label }}
+                        </Link>
                     </div>
                 </div>
             </div>
