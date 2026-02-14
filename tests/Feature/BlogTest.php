@@ -20,7 +20,7 @@ it('returns a successful response for blog page', function () {
 it('returns a successful response for a single article page', function () {
     $blog = Blog::factory()->create([
         'title' => 'Hempcrete house - our experience',
-        'content' => ['description' => 'Test description', 'category' => 'House', 'date' => '2023'],
+        'content' => 'Test description',
     ]);
 
     $response = $this->get("/blogs/{$blog->id}");

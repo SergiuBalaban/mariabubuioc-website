@@ -15,9 +15,7 @@ class BlogResource extends JsonResource
             'id' => $this->id,
             'cover' => $this->cover,
             'title' => $this->title,
-            'author' => $this->author,
             'content' => $this->content,
-            'details' => $this->details,
             'created_at' => $this->created_at->toFormattedDateString(),
             'updated_at' => $this->updated_at->toFormattedDateString(),
         ];

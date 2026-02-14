@@ -14,7 +14,6 @@ it('can view edit blog page as authenticated user', function () {
     $user = User::factory()->create();
     $blog = Blog::factory()->create([
         'title' => 'Test Blog Title',
-        'author' => 'Test Author',
     ]);
 
     $this->actingAs($user);

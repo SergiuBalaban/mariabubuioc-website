@@ -8,17 +8,7 @@ defineProps<{
         data: {
             id: number;
             title: string;
-            author: string;
             cover: string;
-            details: {
-                description: string;
-                category: string;
-                date: string;
-                content_ro?: string;
-                content_en?: string;
-                images?: string[];
-                [key: string]: any;
-            };
             content: string;
             created_at: string;
             updated_at: string;
@@ -64,10 +54,7 @@ defineProps<{
                                 <li class="categories">
                                     <span
                                         class="rounded bg-gray-100 px-2 py-1 text-xs font-semibold tracking-wider uppercase dark:bg-gray-800"
-                                        >{{
-                                            article.data.details.category
-                                        }}</span
-                                    >
+                                    >Uncategorized</span>
                                 </li>
                             </ul>
                         </div>
@@ -75,7 +62,7 @@ defineProps<{
                         <div class="space-y-12">
                             <div
                                 v-if="article.data.content"
-                                class="prose dark:prose-invert max-w-none"
+                                class="dark:prose-invert prose max-w-none"
                             >
                                 <div
                                     class="space-y-6 text-lg leading-relaxed"
@@ -83,23 +70,23 @@ defineProps<{
                                 ></div>
                             </div>
 
-                            <!-- Images from Article (if any) -->
-                            <div
-                                v-if="
-                                    article.data.details.images &&
-                                    article.data.details.images.length > 0
-                                "
-                                class="my-12 grid grid-cols-1 gap-8"
-                            >
-                                <img
-                                    v-for="(img, idx) in article.data.details
-                                        .images"
-                                    :key="idx"
-                                    :src="img"
-                                    class="w-full rounded-lg shadow-sm"
-                                    alt=""
-                                />
-                            </div>
+                            <!--                            &lt;!&ndash; Images from Article (if any) &ndash;&gt;-->
+                            <!--                            <div-->
+                            <!--                                v-if="-->
+                            <!--                                    article.data.details.images &&-->
+                            <!--                                    article.data.details.images.length > 0-->
+                            <!--                                "-->
+                            <!--                                class="my-12 grid grid-cols-1 gap-8"-->
+                            <!--                            >-->
+                            <!--                                <img-->
+                            <!--                                    v-for="(img, idx) in article.data.details-->
+                            <!--                                        .images"-->
+                            <!--                                    :key="idx"-->
+                            <!--                                    :src="img"-->
+                            <!--                                    class="w-full rounded-lg shadow-sm"-->
+                            <!--                                    alt=""-->
+                            <!--                                />-->
+                            <!--                            </div>-->
                         </div>
                     </article>
                 </div>

@@ -17,9 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property-read int $id
  * @property string|null $cover
  * @property string $title
- * @property string|null $author
  * @property array|string|null $content
- * @property array|string|null $details
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
@@ -35,16 +33,6 @@ class Blog extends Model
     protected $fillable = [
         'cover',
         'title',
-        'author',
         'content',
-        'details',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'content' => 'array',
-            'details' => 'array',
-        ];
-    }
 }

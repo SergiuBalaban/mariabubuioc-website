@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('cover')->nullable();
-            $table->string('author')->nullable();
             $table->longText('content')->nullable();
-            $table->json('details')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
