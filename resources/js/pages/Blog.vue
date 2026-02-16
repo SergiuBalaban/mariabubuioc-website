@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 import { article as blogArticle } from '@/routes/blog';
 
@@ -15,8 +16,61 @@ const props = defineProps<{
             created_at: string;
             updated_at: string;
         }>;
+        links: {
+            next: string | null;
+        };
     };
 }>();
+
+const allArticles = ref(props.articles.data);
+const bottomOfList = ref<HTMLElement | null>(null);
+const loading = ref(false);
+
+const loadMore = () => {
+    if (!props.articles.links.next || loading.value) return;
+
+    loading.value = true;
+
+    router.get(
+        props.articles.links.next,
+        {},
+        {
+            preserveState: true,
+            preserveScroll: true,
+            only: ['articles'],
+            onSuccess: () => {
+                allArticles.value = [
+                    ...allArticles.value,
+                    ...props.articles.data,
+                ];
+                loading.value = false;
+            },
+            onFinish: () => {
+                loading.value = false;
+            },
+        },
+    );
+};
+
+let observer: IntersectionObserver | null = null;
+
+onMounted(() => {
+    observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            loadMore();
+        }
+    });
+
+    if (bottomOfList.value) {
+        observer.observe(bottomOfList.value);
+    }
+});
+
+onUnmounted(() => {
+    if (observer) {
+        observer.disconnect();
+    }
+});
 </script>
 
 <template>
@@ -30,7 +84,7 @@ const props = defineProps<{
             <main id="main" class="flex-1 p-6 lg:p-12">
                 <div class="mx-auto max-w-4xl space-y-16">
                     <article
-                        v-for="article in props.articles.data"
+                        v-for="article in allArticles"
                         :key="article.id"
                         class="group"
                     >
@@ -85,6 +139,12 @@ const props = defineProps<{
                             </div>
                         </div>
                     </article>
+
+                    <div ref="bottomOfList" class="py-8 text-center">
+                        <span v-if="loading" class="text-gray-500"
+                            >Loading more articles...</span
+                        >
+                    </div>
                 </div>
             </main>
         </div>
