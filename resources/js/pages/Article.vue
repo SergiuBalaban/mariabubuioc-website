@@ -69,24 +69,6 @@ defineProps<{
                                     v-html="article.data.content"
                                 ></div>
                             </div>
-
-                            <!--                            &lt;!&ndash; Images from Article (if any) &ndash;&gt;-->
-                            <!--                            <div-->
-                            <!--                                v-if="-->
-                            <!--                                    article.data.details.images &&-->
-                            <!--                                    article.data.details.images.length > 0-->
-                            <!--                                "-->
-                            <!--                                class="my-12 grid grid-cols-1 gap-8"-->
-                            <!--                            >-->
-                            <!--                                <img-->
-                            <!--                                    v-for="(img, idx) in article.data.details-->
-                            <!--                                        .images"-->
-                            <!--                                    :key="idx"-->
-                            <!--                                    :src="img"-->
-                            <!--                                    class="w-full rounded-lg shadow-sm"-->
-                            <!--                                    alt=""-->
-                            <!--                                />-->
-                            <!--                            </div>-->
                         </div>
                     </article>
                 </div>

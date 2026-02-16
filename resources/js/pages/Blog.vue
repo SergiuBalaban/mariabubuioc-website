@@ -72,11 +72,10 @@ const props = defineProps<{
                                     ></span>
                                     <span class="category">Uncategorized</span>
                                 </div>
-                                <p
-                                    class="text-lg leading-relaxed text-gray-700 dark:text-gray-300"
-                                >
-                                    {{ article.content }}
-                                </p>
+                                <div
+                                    class="line-clamp-2 text-lg leading-relaxed"
+                                    v-html="article.content"
+                                ></div>
                                 <Link
                                     :href="blogArticle.url(article.id)"
                                     class="inline-block border-b-2 border-transparent font-bold transition-all hover:border-current"
