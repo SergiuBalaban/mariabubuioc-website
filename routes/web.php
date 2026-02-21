@@ -26,6 +26,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
 
     Route::prefix('projects')->group(function (): void {
         Route::get('', [ProjectController::class, 'show'])->name('admin.projects');
+        Route::delete('{project}', [ProjectController::class, 'destroy'])->name('admin.projects.destroy');
     });
 });
 

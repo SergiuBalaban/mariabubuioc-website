@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
@@ -42,6 +42,12 @@ interface ProjectsProps {
 }
 
 defineProps<ProjectsProps>();
+
+const deleteProject = (project: Project) => {
+    if (confirm(`Are you sure you want to delete "${project.title}"?`)) {
+        router.delete(`/admin/projects/${project.id}`);
+    }
+};
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -138,7 +144,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     }}
                                 </td>
                                 <td class="px-4 py-3">
-                                    <!-- Actions will be added later -->
+                                    <button
+                                        :data-test="`delete-project-button-${project.id}`"
+                                        @click="deleteProject(project)"
+                                        class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
+                                    >
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
