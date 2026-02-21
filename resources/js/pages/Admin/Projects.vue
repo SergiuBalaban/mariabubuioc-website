@@ -70,6 +70,12 @@ const breadcrumbs: BreadcrumbItem[] = [
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Projects</h1>
+                <Link
+                    href="/admin/projects/create"
+                    class="rounded bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90"
+                >
+                    Create Project
+                </Link>
             </div>
 
             <div

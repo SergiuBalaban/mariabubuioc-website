@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
 
     Route::prefix('projects')->group(function (): void {
         Route::get('', [ProjectController::class, 'show'])->name('admin.projects');
+        Route::get('create', [ProjectController::class, 'create'])->name('admin.projects.create');
+        Route::post('', [ProjectController::class, 'store'])->name('admin.projects.store');
         Route::post('upload-cover', [ProjectController::class, 'uploadCover'])->name('admin.projects.upload-cover');
         Route::prefix('{project}')->group(function (): void {
             Route::get('', [ProjectController::class, 'edit'])->name('admin.projects.edit');

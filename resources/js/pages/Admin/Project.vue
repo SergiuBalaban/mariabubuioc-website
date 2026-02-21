@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import RichTextEditor from '@/components/RichTextEditor.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -25,11 +25,13 @@ interface Project {
 }
 
 interface ProjectProps {
-    project: Project;
+    project?: Project;
     categories: Category[];
 }
 
 const props = defineProps<ProjectProps>();
+
+const isEditing = computed(() => !!props.project);
 
 // Helper to handle initial content value
 const getInitialContent = (content: any) => {
@@ -39,11 +41,11 @@ const getInitialContent = (content: any) => {
 };
 
 const form = useForm({
-    category_id: props.project.category_id,
-    title: props.project.title,
-    cover: props.project.cover,
-    price: props.project.price,
-    content: getInitialContent(props.project.content),
+    category_id: props.project?.category_id || '',
+    title: props.project?.title || '',
+    cover: props.project?.cover || null,
+    price: props.project?.price || '',
+    content: getInitialContent(props.project?.content),
 });
 
 const uploading = ref(false);
@@ -75,18 +77,23 @@ const handleFileUpload = async (event: Event) => {
 };
 
 const submit = () => {
-    const data: Record<string, any> = {};
+    if (isEditing.value && props.project) {
+        const data: Record<string, any> = {};
 
-    if (form.category_id !== props.project.category_id) data.category_id = form.category_id;
-    if (form.title !== props.project.title) data.title = form.title;
-    if (form.cover !== props.project.cover) data.cover = form.cover;
-    if (form.price !== props.project.price) data.price = form.price;
+        if (form.category_id !== props.project.category_id)
+            data.category_id = form.category_id;
+        if (form.title !== props.project.title) data.title = form.title;
+        if (form.cover !== props.project.cover) data.cover = form.cover;
+        if (form.price !== props.project.price) data.price = form.price;
 
-    if (form.content !== getInitialContent(props.project.content)) {
-        data.content = form.content;
+        if (form.content !== getInitialContent(props.project.content)) {
+            data.content = form.content;
+        }
+
+        form.transform(() => data).put(`/admin/projects/${props.project!.id}`);
+    } else {
+        form.post('/admin/projects');
     }
-
-    form.transform(() => data).put(`/admin/projects/${props.project.id}`);
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -99,19 +106,24 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/projects',
     },
     {
-        title: props.project.title,
-        href: `/admin/projects/${props.project.id}`,
+        title: isEditing.value && props.project ? props.project.title : 'Create',
+        href:
+            isEditing.value && props.project
+                ? `/admin/projects/${props.project.id}`
+                : '/admin/projects/create',
     },
 ];
 </script>
 
 <template>
-    <Head :title="`Edit - ${project.title}`" />
+    <Head :title="isEditing ? `Edit - ${project?.title}` : 'Create Project'" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">Edit Project</h1>
+                <h1 class="text-2xl font-bold">
+                    {{ isEditing ? 'Edit Project' : 'Create Project' }}
+                </h1>
                 <Link
                     href="/admin/projects"
                     class="rounded bg-gray-600 px-4 py-2 text-sm text-white hover:bg-gray-700"
@@ -190,6 +202,9 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 required
                                 class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
                             >
+                                <option value="" disabled>
+                                    Select a category
+                                </option>
                                 <option
                                     v-for="category in categories"
                                     :key="category.id"
@@ -219,7 +234,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 type="text"
                                 required
                                 class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
-                            >
+                            />
                             <div
                                 v-if="form.errors.title"
                                 class="mt-1 text-sm text-red-600"
@@ -240,7 +255,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 v-model="form.price"
                                 type="text"
                                 class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
-                            >
+                            />
                             <div
                                 v-if="form.errors.price"
                                 class="mt-1 text-sm text-red-600"
@@ -250,9 +265,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </div>
 
                         <div>
-                            <label
-                                class="mb-2 block text-sm font-medium"
-                            >
+                            <label class="mb-2 block text-sm font-medium">
                                 Content
                             </label>
                             <RichTextEditor v-model="form.content" />
@@ -278,7 +291,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                         :disabled="form.processing"
                         class="rounded bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
                     >
-                        {{ form.processing ? 'Saving...' : 'Save Changes' }}
+                        {{
+                            form.processing
+                                ? 'Saving...'
+                                : isEditing
+                                  ? 'Save Changes'
+                                  : 'Create Project'
+                        }}
                     </button>
                 </div>
             </form>

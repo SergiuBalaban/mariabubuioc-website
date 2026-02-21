@@ -24,6 +24,29 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function create(Request $request): Response
+    {
+        $categories = Category::all();
+        $categoriesResource = CategoryResource::collection($categories)->response()->getData()->data;
+
+        return Inertia::render('Admin/Project', [
+            'categories' => $categoriesResource,
+        ]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $project = Project::create($request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'title' => 'required|string|max:255',
+            'price' => 'nullable|string|max:255',
+            'cover' => 'nullable|string',
+            'content' => 'nullable|string',
+        ]));
+
+        return redirect()->route('admin.projects.edit', $project);
+    }
+
     public function edit(Request $request, Project $project): Response
     {
         $categories = Category::all();
