@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProjectResource;
+use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,6 +21,17 @@ class ProjectController extends Controller
 
         return Inertia::render('Admin/Projects', [
             'projects' => $projectsResource,
+        ]);
+    }
+
+    public function edit(Request $request, Project $project): Response
+    {
+        $categories = Category::all();
+        $categoriesResource = CategoryResource::collection($categories)->response()->getData()->data;
+
+        return Inertia::render('Admin/Project', [
+            'project' => (new ProjectResource($project))->response()->getData()->data,
+            'categories' => $categoriesResource,
         ]);
     }
 
