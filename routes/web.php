@@ -26,8 +26,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
 
     Route::prefix('projects')->group(function (): void {
         Route::get('', [ProjectController::class, 'show'])->name('admin.projects');
+        Route::post('upload-cover', [ProjectController::class, 'uploadCover'])->name('admin.projects.upload-cover');
         Route::prefix('{project}')->group(function (): void {
             Route::get('', [ProjectController::class, 'edit'])->name('admin.projects.edit');
+            Route::put('', [ProjectController::class, 'update'])->name('admin.projects.update');
             Route::delete('', [ProjectController::class, 'destroy'])->name('admin.projects.destroy');
         });
     });

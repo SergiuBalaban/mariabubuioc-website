@@ -35,6 +35,37 @@ class ProjectController extends Controller
         ]);
     }
 
+    public function update(Request $request, Project $project): RedirectResponse
+    {
+        $project->update(request()->validate([
+            'category_id' => 'sometimes|required|exists:categories,id',
+            'title' => 'sometimes|required|string|max:255',
+            'price' => 'nullable|string|max:255',
+            'cover' => 'nullable|string',
+            'content' => 'nullable|string',
+        ]));
+
+        return redirect()->route('admin.projects.edit', $project);
+    }
+
+    public function uploadCover(Request $request)
+    {
+        $request->validate([
+            'cover' => 'required|image|max:10240',
+        ]);
+
+        $file = $request->file('cover');
+        $date = now()->format('Y-m-d');
+        $filename = time().'_'.$file->getClientOriginalName();
+        $path = "source/img/projects/{$date}";
+
+        $file->move(public_path($path), $filename);
+
+        return response()->json([
+            'path' => "/{$path}/{$filename}",
+        ]);
+    }
+
     public function destroy(Request $request, Project $project): RedirectResponse
     {
         $project->delete();
