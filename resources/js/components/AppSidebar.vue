@@ -27,6 +27,11 @@ const mainNavItems: NavItem[] = [
         href: '/admin/blogs',
         icon: FileText,
     },
+    {
+        title: 'Projects',
+        href: '/admin/projects',
+        icon: FileText,
+    },
 ];
 </script>
 

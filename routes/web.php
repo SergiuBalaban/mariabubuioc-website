@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
             Route::put('', [BlogController::class, 'update'])->name('admin.blogs.update');
             Route::delete('', [BlogController::class, 'destroy'])->name('admin.blogs.destroy');
         });
+    });
+
+    Route::prefix('projects')->group(function (): void {
+        Route::get('', [ProjectController::class, 'show'])->name('admin.projects');
     });
 });
 
