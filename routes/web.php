@@ -16,6 +16,8 @@ Route::get('dashboard', [DashboardController::class, 'show'])->middleware(['auth
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
     Route::prefix('blogs')->group(function (): void {
         Route::get('', [BlogController::class, 'show'])->name('admin.blogs');
+        Route::get('create', [BlogController::class, 'create'])->name('admin.blogs.create');
+        Route::post('', [BlogController::class, 'store'])->name('admin.blogs.store');
         Route::post('upload-cover', [BlogController::class, 'uploadCover'])->name('admin.blogs.upload-cover');
         Route::prefix('{blog}')->group(function (): void {
             Route::get('', [BlogController::class, 'edit'])->name('admin.blogs.edit');

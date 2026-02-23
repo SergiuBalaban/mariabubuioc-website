@@ -22,6 +22,24 @@ class BlogController extends Controller
         ]);
     }
 
+    public function create(): Response
+    {
+        return Inertia::render('Admin/Article');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $blog = Blog::create($request->validate([
+            'cover' => 'nullable|string',
+            'title' => 'required|string|max:255',
+            'author' => 'nullable|string|max:255',
+            'content' => 'nullable|string',
+            'details' => 'nullable|array',
+        ]));
+
+        return redirect()->route('admin.blogs.edit', $blog);
+    }
+
     public function edit(Request $request, Blog $blog): Response
     {
         return Inertia::render('Admin/Article', [

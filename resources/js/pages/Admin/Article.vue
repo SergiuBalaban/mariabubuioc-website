@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import axios from 'axios';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 import RichTextEditor from '@/components/RichTextEditor.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -18,10 +18,12 @@ interface Blog {
 }
 
 interface ArticleProps {
-    blog: Blog;
+    blog?: Blog;
 }
 
 const props = defineProps<ArticleProps>();
+
+const isEditing = computed(() => !!props.blog);
 
 // Helper to handle initial content value
 const getInitialContent = (content: any) => {
@@ -33,9 +35,9 @@ const getInitialContent = (content: any) => {
 };
 
 const form = useForm({
-    cover: props.blog.cover,
-    title: props.blog.title,
-    content: getInitialContent(props.blog.content),
+    cover: props.blog?.cover || null,
+    title: props.blog?.title || '',
+    content: getInitialContent(props.blog?.content),
 });
 
 const uploading = ref(false);
@@ -67,17 +69,20 @@ const handleFileUpload = async (event: Event) => {
 };
 
 const submit = () => {
-    const data: Record<string, any> = {};
+    if (isEditing.value && props.blog) {
+        const data: Record<string, any> = {};
 
-    if (form.title !== props.blog.title) data.title = form.title;
-    if (form.cover !== props.blog.cover) data.cover = form.cover;
+        if (form.title !== props.blog.title) data.title = form.title;
+        if (form.cover !== props.blog.cover) data.cover = form.cover;
 
-    if (form.content !== getInitialContent(props.blog.content)) {
-        data.content = form.content;
+        if (form.content !== getInitialContent(props.blog.content)) {
+            data.content = form.content;
+        }
+
+        form.transform(() => data).put(`/admin/blogs/${props.blog!.id}`);
+    } else {
+        form.post('/admin/blogs');
     }
-
-    console.log(data);
-    form.transform(() => data).put(`/admin/blogs/${props.blog.id}`);
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -90,19 +95,24 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/blogs',
     },
     {
-        title: props.blog.title,
-        href: `/admin/blogs/${props.blog.id}`,
+        title: isEditing.value && props.blog ? props.blog.title : 'Create',
+        href:
+            isEditing.value && props.blog
+                ? `/admin/blogs/${props.blog.id}`
+                : '/admin/blogs/create',
     },
 ];
 </script>
 
 <template>
-    <Head :title="`Edit - ${blog.title}`" />
+    <Head :title="isEditing ? `Edit - ${blog?.title}` : 'Create Blog'" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="flex items-center justify-between">
-                <h1 class="text-2xl font-bold">Edit Blog</h1>
+                <h1 class="text-2xl font-bold">
+                    {{ isEditing ? 'Edit Blog' : 'Create Blog' }}
+                </h1>
                 <Link
                     href="/admin/blogs"
                     class="rounded bg-gray-600 px-4 py-2 text-sm text-white hover:bg-gray-700"
@@ -191,9 +201,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                         </div>
 
                         <div>
-                            <label
-                                class="mb-2 block text-sm font-medium"
-                            >
+                            <label class="mb-2 block text-sm font-medium">
                                 Content
                             </label>
                             <RichTextEditor v-model="form.content" />
@@ -219,7 +227,13 @@ const breadcrumbs: BreadcrumbItem[] = [
                         :disabled="form.processing"
                         class="rounded bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
                     >
-                        {{ form.processing ? 'Saving...' : 'Save Changes' }}
+                        {{
+                            form.processing
+                                ? 'Saving...'
+                                : isEditing
+                                  ? 'Save Changes'
+                                  : 'Create Blog'
+                        }}
                     </button>
                 </div>
             </form>
