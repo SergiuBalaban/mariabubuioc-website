@@ -15,7 +15,7 @@ it('create new blog on admin blog page as authenticated user', function () {
     visit('/admin/blogs/create')
         ->assertSee('Create Blog')
         ->type('title', 'New Blog Title')
-        ->press('Create Blog')->debug();
+        ->press('Create Blog');
 
     $this->assertDatabaseHas(Blog::class, [
         'title' => 'New Blog Title',
