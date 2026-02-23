@@ -15,13 +15,17 @@ const handleFilterClick = (filterValue: string) => {
 
 <template>
     <div class="widgets-block mb-6">
-        <div class="widget filter">
-            <p class="title mb-4 text-lg font-semibold">Works Filter</p>
+        <div class="widget filter flex flex-col items-center">
+            <div class="title mb-4 text-lg font-semibold">
+                Works Filter
+            </div>
             <ul class="space-y-2">
                 <li
                     v-for="filter in categories"
                     :key="filter.value"
-                    :class="{ 'active font-bold': activeFilter === filter.value }"
+                    :class="{
+                        'active font-bold': activeFilter === filter.value,
+                    }"
                     class="cursor-pointer hover:underline"
                     @click="handleFilterClick(filter.value)"
                 >

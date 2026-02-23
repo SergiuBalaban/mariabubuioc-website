@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Blog;
+use App\Models\Category;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -25,9 +26,11 @@ class DatabaseSeeder extends Seeder
         //        $this->call(BlogSeeder::class);
 
         Blog::query()->delete();
-        Blog::factory(20)->create();
-
+        Category::query()->delete();
         Project::query()->delete();
+
+        Blog::factory(20)->create();
+        Category::factory(5)->create();
         Project::factory(20)->create();
     }
 }
