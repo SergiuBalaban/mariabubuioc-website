@@ -16,7 +16,7 @@ class ProjectFactory extends Factory
         return [
             'category_id' => Category::factory(),
             'title' => $this->faker->unique()->sentence(),
-            'cover' => $this->faker->imageUrl(),
+            'cover' => 'https://picsum.photos/800/600?random='.$this->faker->numberBetween(1, 1000),
             'details' => [
                 'client' => $this->faker->company(),
                 'year' => $this->faker->year(),
