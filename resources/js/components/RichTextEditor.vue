@@ -26,9 +26,15 @@ import {
 } from 'lucide-vue-next';
 import { onBeforeUnmount, ref, watch } from 'vue';
 
-const props = defineProps<{
-    modelValue: string | any;
-}>();
+const props = withDefaults(
+    defineProps<{
+        modelValue: string | any;
+        uploadUrl?: string;
+    }>(),
+    {
+        uploadUrl: '/admin/blogs/upload-cover',
+    },
+);
 
 const emit = defineEmits(['update:modelValue']);
 
@@ -115,13 +121,9 @@ const handleImageUpload = async (event: Event) => {
     formData.append('cover', file);
 
     try {
-        const response = await axios.post(
-            '/admin/blogs/upload-cover',
-            formData,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            },
-        );
+        const response = await axios.post(props.uploadUrl, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
 
         const url = response.data.path;
         if (editor.value) {

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { useDropZone } from '@vueuse/core';
 import axios from 'axios';
+import { Upload, X } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 
 import RichTextEditor from '@/components/RichTextEditor.vue';
@@ -49,11 +51,9 @@ const form = useForm({
 });
 
 const uploading = ref(false);
+const dropZoneRef = ref<HTMLDivElement | null>(null);
 
-const handleFileUpload = async (event: Event) => {
-    const target = event.target as HTMLInputElement;
-    const file = target.files?.[0];
-
+const uploadFile = async (file: File) => {
     if (!file) return;
 
     uploading.value = true;
@@ -75,6 +75,21 @@ const handleFileUpload = async (event: Event) => {
         uploading.value = false;
     }
 };
+
+const handleFileUpload = async (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    const file = target.files?.[0];
+
+    if (file) {
+        await uploadFile(file);
+    }
+};
+
+const { isOverDropZone } = useDropZone(dropZoneRef, async (files) => {
+    if (files && files.length > 0) {
+        await uploadFile(files[0]);
+    }
+});
 
 const submit = () => {
     if (isEditing.value && props.project) {
@@ -106,7 +121,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/projects',
     },
     {
-        title: isEditing.value && props.project ? props.project.title : 'Create',
+        title:
+            isEditing.value && props.project ? props.project.title : 'Create',
         href:
             isEditing.value && props.project
                 ? `/admin/projects/${props.project.id}`
@@ -141,51 +157,84 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <label class="mb-2 block text-sm font-medium">
                                 Cover Image
                             </label>
-                            <div v-if="form.cover">
+
+                            <div v-if="form.cover" class="group relative">
                                 <img
                                     :src="form.cover"
                                     alt="Cover"
-                                    class="mb-2 h-96 w-full rounded object-cover"
+                                    class="mb-2 h-96 w-full rounded-xl object-cover shadow-sm transition-opacity group-hover:opacity-90"
                                 />
                                 <button
                                     type="button"
                                     @click="form.cover = null"
-                                    class="rounded bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700"
+                                    class="absolute top-4 right-4 flex items-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white shadow-lg transition-transform hover:scale-105 hover:bg-red-700 active:scale-95"
+                                    title="Remove cover"
                                 >
-                                    Remove cover
+                                    <X class="h-4 w-4" />
+                                    <span>Remove cover</span>
                                 </button>
                             </div>
+
                             <div v-else>
                                 <div
-                                    class="mb-2 flex h-48 w-full items-center justify-center rounded border-2 border-dashed border-sidebar-border/70 dark:border-sidebar-border"
+                                    ref="dropZoneRef"
+                                    @click="$refs.fileInput.click()"
+                                    class="relative mb-2 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed transition-all"
+                                    :class="[
+                                        isOverDropZone
+                                            ? 'border-primary bg-primary/5'
+                                            : 'border-sidebar-border/70 hover:border-primary/50 hover:bg-sidebar-accent/30 dark:border-sidebar-border',
+                                        uploading
+                                            ? 'pointer-events-none opacity-50'
+                                            : '',
+                                    ]"
                                 >
-                                    <div class="text-center">
-                                        <p
-                                            class="text-sm text-muted-foreground"
+                                    <div
+                                        class="flex flex-col items-center gap-3 text-center"
+                                    >
+                                        <div
+                                            class="rounded-full bg-sidebar-accent p-3 text-muted-foreground transition-colors group-hover:text-primary"
                                         >
-                                            No cover image
-                                        </p>
+                                            <Upload
+                                                v-if="!uploading"
+                                                class="h-8 w-8"
+                                            />
+                                            <div
+                                                v-else
+                                                class="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent"
+                                            ></div>
+                                        </div>
+                                        <div>
+                                            <p class="font-medium">
+                                                {{
+                                                    uploading
+                                                        ? 'Uploading...'
+                                                        : 'Click to upload or drag and drop'
+                                                }}
+                                            </p>
+                                            <p
+                                                class="text-xs text-muted-foreground"
+                                            >
+                                                PNG, JPG or WEBP (max. 5MB)
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 <input
                                     type="file"
+                                    ref="fileInput"
                                     accept="image/*"
                                     @change="handleFileUpload"
-                                    :disabled="uploading"
-                                    class="w-full text-sm"
+                                    class="hidden"
                                 />
-                                <p
-                                    v-if="uploading"
-                                    class="mt-1 text-sm text-blue-600"
-                                >
-                                    Uploading...
-                                </p>
                             </div>
+
                             <div
                                 v-if="form.errors.cover"
-                                class="mt-1 text-sm text-red-600"
+                                class="mt-2 flex items-center gap-1.5 text-sm text-red-600"
                             >
-                                {{ form.errors.cover }}
+                                <X class="h-3.5 w-3.5" />
+                                <span>{{ form.errors.cover }}</span>
                             </div>
                         </div>
 
@@ -268,7 +317,10 @@ const breadcrumbs: BreadcrumbItem[] = [
                             <label class="mb-2 block text-sm font-medium">
                                 Content
                             </label>
-                            <RichTextEditor v-model="form.content" />
+                            <RichTextEditor
+                                v-model="form.content"
+                                upload-url="/admin/projects/upload-cover"
+                            />
                             <div
                                 v-if="form.errors.content"
                                 class="mt-1 text-sm text-red-600"
