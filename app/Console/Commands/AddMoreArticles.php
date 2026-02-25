@@ -3,18 +3,16 @@
 namespace App\Console\Commands;
 
 use App\Models\Blog;
-use App\Models\Category;
-use App\Models\Project;
 use Illuminate\Console\Command;
 
-class FromScratch extends Command
+class AddMoreArticles extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:from-scratch';
+    protected $signature = 'app:add-articles';
 
     /**
      * The console command description.
@@ -28,8 +26,6 @@ class FromScratch extends Command
      */
     public function handle()
     {
-        Blog::query()->forceDelete();
-        Project::query()->forceDelete();
-        Category::query()->forceDelete();
+        Blog::factory(10)->create();
     }
 }
