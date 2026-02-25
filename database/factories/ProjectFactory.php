@@ -15,14 +15,14 @@ class ProjectFactory extends Factory
     {
         return [
             'category_id' => Category::query()->count() ? Category::inRandomOrder()->first()->id : Category::factory(),
-            'title' => $this->faker->unique()->sentence(),
-            'cover' => 'https://picsum.photos/800/600?random='.$this->faker->numberBetween(1, 1000),
+            'title' => fake()->unique()->sentence(),
+            'cover' => 'https://picsum.photos/800/600?random='.fake()->numberBetween(1, 1000),
             'details' => [
-                'client' => $this->faker->company(),
-                'year' => $this->faker->year(),
+                'client' => fake()->company(),
+                'year' => fake()->year(),
             ],
-            'price' => (string) $this->faker->randomFloat(2, 100, 1000),
-            'content' => $this->faker->paragraphs(3, true),
+            'price' => (string) fake()->randomFloat(2, 100, 1000),
+            'content' => fake()->paragraphs(3, true),
         ];
     }
 }
