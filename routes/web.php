@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BlogController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
             Route::get('', [ProjectController::class, 'edit'])->name('admin.projects.edit');
             Route::put('', [ProjectController::class, 'update'])->name('admin.projects.update');
             Route::delete('', [ProjectController::class, 'destroy'])->name('admin.projects.destroy');
+        });
+    });
+
+    Route::prefix('categories')->group(function (): void {
+        Route::get('', [CategoryController::class, 'index'])->name('admin.categories');
+        Route::get('create', [CategoryController::class, 'create'])->name('admin.categories.create');
+        Route::post('', [CategoryController::class, 'store'])->name('admin.categories.store');
+        Route::prefix('{category}')->group(function (): void {
+            Route::get('', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+            Route::put('', [CategoryController::class, 'update'])->name('admin.categories.update');
+            Route::delete('', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
         });
     });
 });
