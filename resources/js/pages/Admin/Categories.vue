@@ -42,7 +42,9 @@ interface CategoriesProps {
 defineProps<CategoriesProps>();
 
 const deleteCategory = (category: Category) => {
-    if (confirm(`Are you sure you want to delete category "${category.name}"?`)) {
+    if (
+        confirm(`Are you sure you want to delete category "${category.name}"?`)
+    ) {
         router.delete(`/admin/categories/${category.id}`);
     }
 };
@@ -64,7 +66,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
+            class="flex h-full max-w-6xl flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Categories</h1>
@@ -95,9 +97,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     Created
                                 </th>
                                 <th class="px-4 py-3 text-left font-medium">
-                                    Updated
-                                </th>
-                                <th class="px-4 py-3 text-left font-medium">
                                     Actions
                                 </th>
                             </tr>
@@ -123,15 +122,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     {{
                                         new Date(
                                             category.created_at,
-                                        ).toLocaleDateString()
-                                    }}
-                                </td>
-                                <td
-                                    class="px-4 py-3 text-sm text-muted-foreground"
-                                >
-                                    {{
-                                        new Date(
-                                            category.updated_at,
                                         ).toLocaleDateString()
                                     }}
                                 </td>
@@ -163,7 +153,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         to
                         {{
                             Math.min(
-                                categories.meta.current_page * categories.meta.per_page,
+                                categories.meta.current_page *
+                                    categories.meta.per_page,
                                 categories.meta.total,
                             )
                         }}
@@ -185,7 +176,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             ]"
                             :disabled="!link.url"
                         >
-                            {{ link.label }}
+                            <span v-html="link.label"></span>
                         </Link>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-import { LayoutGrid, FileText } from 'lucide-vue-next';
+import { LayoutGrid, FileText, BookText, Group } from 'lucide-vue-next';
 
 import NavMain from '@/components/NavMain.vue';
 import {
@@ -25,7 +25,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Blogs',
         href: '/admin/blogs',
-        icon: FileText,
+        icon: BookText,
     },
     {
         title: 'Projects',
@@ -35,7 +35,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Categories',
         href: '/admin/categories',
-        icon: FileText,
+        icon: Group,
     },
 ];
 </script>

@@ -41,7 +41,8 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/admin/categories',
     },
     {
-        title: isEditing.value && props.category ? props.category.name : 'Create',
+        title:
+            isEditing.value && props.category ? props.category.name : 'Create',
         href:
             isEditing.value && props.category
                 ? `/admin/categories/${props.category.id}`

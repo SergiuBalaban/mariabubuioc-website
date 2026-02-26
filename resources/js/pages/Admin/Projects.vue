@@ -66,7 +66,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div
-            class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
+            class="flex h-full max-w-6xl flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
         >
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-bold">Projects</h1>
@@ -103,9 +103,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                     Created
                                 </th>
                                 <th class="px-4 py-3 text-left font-medium">
-                                    Updated
-                                </th>
-                                <th class="px-4 py-3 text-left font-medium">
                                     Actions
                                 </th>
                             </tr>
@@ -140,15 +137,6 @@ const breadcrumbs: BreadcrumbItem[] = [
                                         ).toLocaleDateString()
                                     }}
                                 </td>
-                                <td
-                                    class="px-4 py-3 text-sm text-muted-foreground"
-                                >
-                                    {{
-                                        new Date(
-                                            project.updated_at,
-                                        ).toLocaleDateString()
-                                    }}
-                                </td>
                                 <td class="px-4 py-3">
                                     <button
                                         :data-test="`delete-project-button-${project.id}`"
@@ -178,7 +166,8 @@ const breadcrumbs: BreadcrumbItem[] = [
                         to
                         {{
                             Math.min(
-                                projects.meta.current_page * projects.meta.per_page,
+                                projects.meta.current_page *
+                                    projects.meta.per_page,
                                 projects.meta.total,
                             )
                         }}
@@ -200,7 +189,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                             ]"
                             :disabled="!link.url"
                         >
-                            {{ link.label }}
+                            <span v-html="link.label"></span>
                         </Link>
                     </div>
                 </div>
