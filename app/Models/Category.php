@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Attributes\UseResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -31,4 +32,18 @@ class Category extends Model
     protected $fillable = [
         'name',
     ];
+
+    public static function boot(): void
+    {
+        self::deleting(function (self $category): void {
+            $category->projects()->delete();
+        });
+
+        parent::boot();
+    }
+
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
 }

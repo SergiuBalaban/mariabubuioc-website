@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Project;
 
 it('can create a category', function () {
     $category = Category::factory()->create([
@@ -35,5 +36,18 @@ it('can restore a soft deleted category', function () {
     $this->assertDatabaseHas(Category::class, [
         'id' => $category->id,
         'deleted_at' => null,
+    ]);
+});
+
+it('can deleted category along with his projects', function () {
+    $category = Category::factory()->create();
+    Project::factory()->count(3)->create(['category_id' => $category->id]);
+
+    $category->delete();
+
+    expect($category->deleted_at)->not->toBeNull();
+    $this->assertSoftDeleted($category);
+    $this->assertSoftDeleted(Project::class, [
+        'category_id' => $category->id,
     ]);
 });
