@@ -61,10 +61,16 @@ if (props.project.data.price) {
                                     }}</span
                                 >
                             </div>
-                            <div
-                                class="text-lg leading-relaxed whitespace-pre-line text-gray-700 dark:text-gray-300"
-                            >
-                                {{ props.project.data.content }}
+                            <div class="space-y-12">
+                                <div
+                                    v-if="props.project.data.content"
+                                    class="dark:prose-invert prose max-w-none"
+                                >
+                                    <div
+                                        class="space-y-6 text-lg leading-relaxed"
+                                        v-html="props.project.data.content"
+                                    ></div>
+                                </div>
                             </div>
                         </div>
 

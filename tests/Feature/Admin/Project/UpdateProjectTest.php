@@ -23,8 +23,6 @@ it('cannot update a project with failed rules', function () {
     $project = Project::factory()->create();
     $this->actingAs($user);
 
-    $this->putJson('/admin/projects/'.$project->id)->assertUnprocessable();
-
     $this->putJson('/admin/projects/'.$project->id, [
         'title' => null,
     ])->assertUnprocessable();

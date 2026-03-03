@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ManageProjectRequest;
+use App\Http\Requests\Project\CreateProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProjectResource;
 use App\Models\Category;
@@ -35,7 +36,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(ManageProjectRequest $request): RedirectResponse
+    public function store(CreateProjectRequest $request): RedirectResponse
     {
         $project = Project::create($request->validated());
 
@@ -53,7 +54,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(ManageProjectRequest $request, Project $project): RedirectResponse
+    public function update(UpdateProjectRequest $request, Project $project): RedirectResponse
     {
         $project->update($request->validated());
 
