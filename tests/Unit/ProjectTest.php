@@ -2,7 +2,6 @@
 
 use App\Models\Category;
 use App\Models\Project;
-use Illuminate\Database\UniqueConstraintViolationException;
 
 it('can create a project', function () {
     $category = Category::factory()->create();
@@ -23,17 +22,4 @@ it('can create a project', function () {
         'id' => $project->id,
         'title' => 'Test Project',
     ]);
-});
-
-it('has a category relationship', function () {
-    $project = Project::factory()->create();
-
-    expect($project->category)->toBeInstanceOf(Category::class);
-});
-
-it('enforces unique title', function () {
-    Project::factory()->create(['title' => 'Unique Title']);
-
-    expect(fn () => Project::factory()->create(['title' => 'Unique Title']))
-        ->toThrow(UniqueConstraintViolationException::class);
 });

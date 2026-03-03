@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManageProjectRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProjectResource;
 use App\Models\Category;
@@ -34,15 +35,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(ManageProjectRequest $request): RedirectResponse
     {
-        $project = Project::create($request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string|max:255',
-            'price' => 'nullable|string|max:255',
-            'cover' => 'nullable|string',
-            'content' => 'nullable|string',
-        ]));
+        $project = Project::create($request->validated());
 
         return redirect()->route('admin.projects.edit', $project);
     }
@@ -58,15 +53,9 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function update(Request $request, Project $project): RedirectResponse
+    public function update(ManageProjectRequest $request, Project $project): RedirectResponse
     {
-        $project->update(request()->validate([
-            'category_id' => 'sometimes|required|exists:categories,id',
-            'title' => 'sometimes|required|string|max:255',
-            'price' => 'nullable|string|max:255',
-            'cover' => 'nullable|string',
-            'content' => 'nullable|string',
-        ]));
+        $project->update($request->validated());
 
         return redirect()->route('admin.projects.edit', $project);
     }

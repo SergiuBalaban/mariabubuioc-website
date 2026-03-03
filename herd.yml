@@ -1,0 +1,5 @@
+integrations:
+  forge:
+    mariabubuioc-staging.on-forge.com:
+      server-id: 1167862
+      site-id: 3058951

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManageCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
@@ -27,11 +28,11 @@ class CategoryController extends Controller
         return Inertia::render('Admin/Category');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(ManageCategoryRequest $request): RedirectResponse
     {
-        $category = Category::create($request->validate([
-            'name' => 'required|string|max:255',
-        ]));
+        $category = Category::create([
+            'name' => $request->name,
+        ]);
 
         return redirect()->route('admin.categories.edit', $category);
     }
@@ -43,11 +44,11 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Request $request, Category $category): RedirectResponse
+    public function update(ManageCategoryRequest $request, Category $category): RedirectResponse
     {
-        $category->update($request->validate([
-            'name' => 'required|string|max:255',
-        ]));
+        $category->update([
+            'name' => $request->name,
+        ]);
 
         return redirect()->route('admin.categories.edit', $category);
     }

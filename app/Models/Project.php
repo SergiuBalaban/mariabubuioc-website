@@ -61,6 +61,6 @@ class Project extends Model
 
     public function getCategoryNameAttribute(): string
     {
-        return $this->category->name;
+        return $this->category->name ?? '';
     }
 }
