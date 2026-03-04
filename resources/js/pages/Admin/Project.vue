@@ -207,26 +207,26 @@ const breadcrumbs: BreadcrumbItem[] = [
                             </div>
                         </div>
 
-                        <div>
-                            <label
-                                for="price"
-                                class="mb-2 block text-sm font-medium"
-                            >
-                                Price
-                            </label>
-                            <input
-                                id="price"
-                                v-model="form.price"
-                                type="text"
-                                class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
-                            />
-                            <div
-                                v-if="form.errors.price"
-                                class="mt-1 text-sm text-red-600"
-                            >
-                                {{ form.errors.price }}
-                            </div>
-                        </div>
+<!--                        <div>-->
+<!--                            <label-->
+<!--                                for="price"-->
+<!--                                class="mb-2 block text-sm font-medium"-->
+<!--                            >-->
+<!--                                Price-->
+<!--                            </label>-->
+<!--                            <input-->
+<!--                                id="price"-->
+<!--                                v-model="form.price"-->
+<!--                                type="text"-->
+<!--                                class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"-->
+<!--                            />-->
+<!--                            <div-->
+<!--                                v-if="form.errors.price"-->
+<!--                                class="mt-1 text-sm text-red-600"-->
+<!--                            >-->
+<!--                                {{ form.errors.price }}-->
+<!--                            </div>-->
+<!--                        </div>-->
 
                         <div>
                             <div class="mb-2 flex items-center justify-between">

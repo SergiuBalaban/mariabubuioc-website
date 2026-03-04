@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('cover')->nullable();
             $table->json('details')->nullable();
+            $table->json('images')->nullable();
             $table->string('price')->nullable();
             $table->longText('content')->nullable();
             $table->timestamps();

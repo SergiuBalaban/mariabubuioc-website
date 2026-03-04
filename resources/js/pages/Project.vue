@@ -12,22 +12,13 @@ const props = defineProps<{
             cover: string;
             content: string;
             details: {
-                images?: string[];
-                Shop?: string;
-                ShopUrl?: string;
                 [key: string]: any;
             };
+            images: string[];
             price: string | null;
         };
     };
 }>();
-
-const { images, Shop, ShopUrl, ...otherDetails } =
-    props.project.data.details || {};
-const detailsToShow = { ...otherDetails };
-if (props.project.data.price) {
-    detailsToShow.Price = props.project.data.price;
-}
 </script>
 
 <template>
@@ -81,7 +72,8 @@ if (props.project.data.price) {
                                 </h3>
                                 <dl class="space-y-4">
                                     <div
-                                        v-for="(value, label) in detailsToShow"
+                                        v-for="(value, label) in props.project
+                                            .data.details"
                                         :key="label"
                                     >
                                         <dt
@@ -93,34 +85,20 @@ if (props.project.data.price) {
                                             <span v-html="value"></span>
                                         </dd>
                                     </div>
-                                    <div v-if="Shop">
-                                        <dt
-                                            class="text-xs font-bold text-gray-500 uppercase dark:text-gray-400"
-                                        >
-                                            Shop
-                                        </dt>
-                                        <dd class="text-sm">
-                                            <a
-                                                v-if="ShopUrl"
-                                                :href="ShopUrl"
-                                                target="_blank"
-                                                class="text-blue-600 hover:underline"
-                                                >{{ Shop }}</a
-                                            >
-                                            <span v-else>{{ Shop }}</span>
-                                        </dd>
-                                    </div>
                                 </dl>
                             </div>
                         </div>
                     </div>
 
                     <div
-                        v-if="images && images.length"
+                        v-if="
+                            props.project.data.images &&
+                            props.project.data.images.length
+                        "
                         class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
                     >
                         <div
-                            v-for="(img, idx) in images"
+                            v-for="(img, idx) in props.project.data.images"
                             :key="idx"
                             class="aspect-square overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800"
                         >

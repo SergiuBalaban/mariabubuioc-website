@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $title,
  * @property string|null $cover,
  * @property array|string|null $details,
+ * @property array|string|null $images,
  * @property string|null $price,
  * @property string|null $content,
  * @property Carbon $created_at,
@@ -40,6 +41,7 @@ class Project extends Model
         'title',
         'cover',
         'details',
+        'images',
         'price',
         'content',
     ];
@@ -48,6 +50,7 @@ class Project extends Model
     {
         return [
             'details' => 'array',
+            'images' => 'array',
         ];
     }
 
