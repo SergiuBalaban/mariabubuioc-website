@@ -16,6 +16,7 @@ class CreateProjectRequest extends FormRequest
             'price' => 'nullable|string|max:20',
             'cover' => 'nullable|string|max:255',
             'details' => 'nullable|array',
+            'images' => 'nullable|array',
             'content' => 'nullable|string',
         ];
     }

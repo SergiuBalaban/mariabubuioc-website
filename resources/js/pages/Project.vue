@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import { ChevronLeft, ChevronRight, X } from 'lucide-vue-next';
+import { ref, computed } from 'vue';
+
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 import Sidebar from './Sidebar.vue';
 
@@ -19,6 +23,39 @@ const props = defineProps<{
         };
     };
 }>();
+
+const selectedImageIndex = ref<number | null>(null);
+
+const allImages = computed(() => {
+    const images = [];
+    if (props.project.data.cover) {
+        images.push(props.project.data.cover);
+    }
+    if (props.project.data.images) {
+        images.push(...props.project.data.images);
+    }
+    return images;
+});
+
+const openLightbox = (index: number) => {
+    selectedImageIndex.value = index;
+};
+
+const closeLightbox = () => {
+    selectedImageIndex.value = null;
+};
+
+const nextImage = () => {
+    if (selectedImageIndex.value !== null) {
+        selectedImageIndex.value = (selectedImageIndex.value + 1) % allImages.value.length;
+    }
+};
+
+const prevImage = () => {
+    if (selectedImageIndex.value !== null) {
+        selectedImageIndex.value = (selectedImageIndex.value - 1 + allImages.value.length) % allImages.value.length;
+    }
+};
 </script>
 
 <template>
@@ -31,11 +68,12 @@ const props = defineProps<{
 
             <main id="main" class="flex-1 p-6 lg:p-12">
                 <div class="mx-auto max-w-5xl">
-                    <div class="mb-12">
+                    <div v-if="props.project.data.cover" class="mb-12">
                         <img
                             :src="props.project.data.cover"
                             :alt="props.project.data.title"
-                            class="w-full rounded-lg shadow-sm"
+                            class="w-full cursor-pointer rounded-lg shadow-sm transition-opacity hover:opacity-90"
+                            @click="openLightbox(0)"
                         />
                     </div>
 
@@ -100,7 +138,8 @@ const props = defineProps<{
                         <div
                             v-for="(img, idx) in props.project.data.images"
                             :key="idx"
-                            class="aspect-square overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800"
+                            class="aspect-square cursor-pointer overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800"
+                            @click="openLightbox(props.project.data.cover ? idx + 1 : idx)"
                         >
                             <img
                                 :src="img"
@@ -109,6 +148,44 @@ const props = defineProps<{
                             />
                         </div>
                     </div>
+
+                    <Dialog :open="selectedImageIndex !== null" @update:open="closeLightbox">
+                        <DialogContent class="max-w-5xl border-none bg-transparent p-0 shadow-none sm:max-w-5xl">
+                            <div class="relative flex h-[85vh] w-full items-center justify-center">
+                                <button
+                                    @click="prevImage"
+                                    class="absolute left-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+                                >
+                                    <ChevronLeft class="h-8 w-8" />
+                                </button>
+
+                                <img
+                                    v-if="selectedImageIndex !== null"
+                                    :src="allImages[selectedImageIndex]"
+                                    class="max-h-full max-w-full object-contain shadow-2xl"
+                                    alt="Project Image"
+                                />
+
+                                <button
+                                    @click="nextImage"
+                                    class="absolute right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+                                >
+                                    <ChevronRight class="h-8 w-8" />
+                                </button>
+
+                                <button
+                                    @click="closeLightbox"
+                                    class="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+                                >
+                                    <X class="h-6 w-6" />
+                                </button>
+
+                                <div class="absolute bottom-4 left-0 right-0 text-center text-white text-sm font-medium drop-shadow-md">
+                                    {{ (selectedImageIndex ?? 0) + 1 }} / {{ allImages.length }}
+                                </div>
+                            </div>
+                        </DialogContent>
+                    </Dialog>
                 </div>
             </main>
         </div>

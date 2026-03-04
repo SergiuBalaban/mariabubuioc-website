@@ -5,6 +5,7 @@ import { computed } from 'vue';
 
 import RichTextEditor from '@/components/RichTextEditor.vue';
 import UploadCover from '@/components/UploadCover.vue';
+import UploadGallery from '@/components/UploadGallery.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
@@ -21,6 +22,7 @@ interface Project {
     cover: string | null;
     price: string | null;
     details: any | null;
+    images: string[] | null;
     content: any | null;
     created_at: string;
     updated_at: string;
@@ -67,6 +69,7 @@ const form = useForm({
     cover: props.project?.cover || null,
     price: props.project?.price || '',
     details: getInitialDetails(props.project?.details),
+    images: props.project?.images || null,
     content: getInitialContent(props.project?.content),
 });
 
@@ -81,6 +84,12 @@ const submit = () => {
         if (form.title !== props.project.title) data.title = form.title;
         if (form.cover !== props.project.cover) data.cover = form.cover;
         if (form.price !== props.project.price) data.price = form.price;
+        if (
+            JSON.stringify(form.images) !==
+            JSON.stringify(props.project.images || null)
+        ) {
+            data.images = form.images;
+        }
 
         if (form.content !== getInitialContent(props.project.content)) {
             data.content = form.content;
@@ -306,6 +315,15 @@ const breadcrumbs: BreadcrumbItem[] = [
                             >
                                 {{ form.errors.content }}
                             </div>
+                        </div>
+
+                        <div>
+                            <UploadGallery
+                                v-model="form.images"
+                                upload-url="/admin/projects/upload-cover"
+                                :error="form.errors.images"
+                                label="Project Gallery"
+                            />
                         </div>
                     </div>
                 </div>

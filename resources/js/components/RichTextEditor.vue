@@ -430,13 +430,13 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- Editor Content -->
-        <div class="bg-white dark:bg-gray-900">
+        <div class="bg-white dark:bg-gray-900 overflow-y-auto max-h-[500px]">
             <EditorContent v-show="!isHtmlView" :editor="editor" />
             <textarea
                 v-show="isHtmlView"
                 v-model="rawHtml"
                 @input="updateFromRawHtml"
-                class="h-75 w-full resize-none bg-transparent p-4 font-mono text-sm focus:outline-none"
+                class="max-h-75 w-full resize-none bg-transparent p-4 font-mono text-sm focus:outline-none"
             ></textarea>
         </div>
     </div>
