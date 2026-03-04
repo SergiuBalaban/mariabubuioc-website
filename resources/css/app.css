@@ -170,4 +170,76 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    /* Basic typography styles for rich text content (.prose) */
+    .prose {
+        @apply leading-relaxed;
+
+        h1 {
+            @apply mb-8 mt-12 text-4xl font-extrabold tracking-tight;
+        }
+        h2 {
+            @apply mb-6 mt-10 text-3xl font-bold tracking-tight;
+        }
+        h3 {
+            @apply mb-4 mt-8 text-2xl font-bold;
+        }
+        h4 {
+            @apply mb-4 mt-6 text-xl font-bold;
+        }
+        p {
+            @apply mb-6;
+        }
+        p:last-child {
+            @apply mb-0;
+        }
+        ul {
+            @apply mb-6 list-disc pl-6;
+        }
+        ol {
+            @apply mb-6 list-decimal pl-6;
+        }
+        li {
+            @apply mb-2;
+        }
+        blockquote {
+            @apply my-8 border-l-4 border-gray-200 py-2 pl-6 italic text-gray-700 dark:border-gray-800 dark:text-gray-300;
+        }
+        a {
+            @apply font-medium text-primary underline underline-offset-4 hover:opacity-80;
+        }
+        img {
+            @apply my-8 rounded-lg;
+        }
+        strong {
+            @apply font-bold text-gray-900 dark:text-white;
+        }
+        code {
+            @apply rounded bg-gray-100 px-1.5 py-0.5 text-sm font-semibold text-gray-900 dark:bg-gray-800 dark:text-gray-100;
+        }
+        pre {
+            @apply my-6 overflow-x-auto rounded-lg bg-gray-900 p-4 text-sm text-gray-100 dark:bg-black;
+        }
+        pre code {
+            @apply bg-transparent p-0 font-normal text-inherit;
+        }
+    }
+
+    /* Dark mode inversion for typography */
+    .dark .prose-invert {
+        @apply text-gray-300;
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            @apply text-white;
+        }
+        blockquote {
+            @apply border-gray-800 text-gray-400;
+        }
+        strong {
+            @apply text-white;
+        }
+    }
 }

@@ -260,7 +260,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                             class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 text-sm dark:border-sidebar-border"
                                         />
                                     </div>
-                                    <div class="flex-[2]">
+                                    <div class="flex-2">
                                         <input
                                             v-model="detail.value"
                                             type="text"

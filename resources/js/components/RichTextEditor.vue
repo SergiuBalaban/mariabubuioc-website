@@ -443,18 +443,5 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
-/* Basic prose styles if @tailwindcss/typography is not fully configured or to override */
-:deep(.prose ul) {
-    list-style-type: disc;
-    padding-left: 1.5em;
-}
-:deep(.prose ol) {
-    list-style-type: decimal;
-    padding-left: 1.5em;
-}
-:deep(.prose blockquote) {
-    border-left: 4px solid #e5e7eb;
-    padding-left: 1em;
-    font-style: italic;
-}
+/* Basic prose styles are handled by global .prose styles in app.css */
 </style>

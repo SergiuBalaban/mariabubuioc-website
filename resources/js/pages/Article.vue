@@ -63,12 +63,8 @@ defineProps<{
                             <div
                                 v-if="article.data.content"
                                 class="dark:prose-invert prose max-w-none"
-                            >
-                                <div
-                                    class="space-y-6 text-lg leading-relaxed"
-                                    v-html="article.data.content"
-                                ></div>
-                            </div>
+                                v-html="article.data.content"
+                            ></div>
                         </div>
                     </article>
                 </div>

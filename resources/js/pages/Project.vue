@@ -65,12 +65,8 @@ if (props.project.data.price) {
                                 <div
                                     v-if="props.project.data.content"
                                     class="dark:prose-invert prose max-w-none"
-                                >
-                                    <div
-                                        class="space-y-6 text-lg leading-relaxed"
-                                        v-html="props.project.data.content"
-                                    ></div>
-                                </div>
+                                    v-html="props.project.data.content"
+                                ></div>
                             </div>
                         </div>
 
