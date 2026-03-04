@@ -13,6 +13,7 @@ class UpdateProjectRequest extends FormRequest
             'title' => 'sometimes|string|min:3|max:255|unique:projects,title'.$this->id,
             'price' => 'nullable|string|max:20',
             'cover' => 'nullable|string|max:255',
+            'details' => 'nullable|array',
             'content' => 'nullable|string',
         ];
     }

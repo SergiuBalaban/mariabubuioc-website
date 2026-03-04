@@ -15,6 +15,7 @@ class CreateProjectRequest extends FormRequest
             'title' => 'required|string|min:3|max:255|unique:projects,title'.$updateById,
             'price' => 'nullable|string|max:20',
             'cover' => 'nullable|string|max:255',
+            'details' => 'nullable|array',
             'content' => 'nullable|string',
         ];
     }

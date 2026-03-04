@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Plus, Trash2 } from 'lucide-vue-next';
 import { computed } from 'vue';
 
 import RichTextEditor from '@/components/RichTextEditor.vue';
@@ -19,6 +20,7 @@ interface Project {
     title: string;
     cover: string | null;
     price: string | null;
+    details: any | null;
     content: any | null;
     created_at: string;
     updated_at: string;
@@ -40,15 +42,37 @@ const getInitialContent = (content: any) => {
     return JSON.stringify(content, null, 2);
 };
 
+const getInitialDetails = (details: any) => {
+    if (!details || typeof details !== 'object' || Array.isArray(details))
+        return [];
+    return Object.entries(details).map(([key, value]) => ({
+        key,
+        value: String(value),
+    }));
+};
+
+const transformDetails = (details: { key: string; value: string }[]) => {
+    const obj: Record<string, any> = {};
+    details.forEach((item) => {
+        if (item.key.trim()) {
+            obj[item.key.trim()] = item.value;
+        }
+    });
+    return obj;
+};
+
 const form = useForm({
     category_id: props.project?.category_id || '',
     title: props.project?.title || '',
     cover: props.project?.cover || null,
     price: props.project?.price || '',
+    details: getInitialDetails(props.project?.details),
     content: getInitialContent(props.project?.content),
 });
 
 const submit = () => {
+    const transformedDetails = transformDetails(form.details);
+
     if (isEditing.value && props.project) {
         const data: Record<string, any> = {};
 
@@ -62,9 +86,19 @@ const submit = () => {
             data.content = form.content;
         }
 
+        if (
+            JSON.stringify(transformedDetails) !==
+            JSON.stringify(props.project.details || {})
+        ) {
+            data.details = transformedDetails;
+        }
+
         form.transform(() => data).put(`/admin/projects/${props.project!.id}`);
     } else {
-        form.post('/admin/projects');
+        form.transform((data) => ({
+            ...data,
+            details: transformedDetails,
+        })).post('/admin/projects');
     }
 };
 
@@ -191,6 +225,70 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 class="mt-1 text-sm text-red-600"
                             >
                                 {{ form.errors.price }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="mb-2 flex items-center justify-between">
+                                <label class="text-sm font-medium">
+                                    Details
+                                </label>
+                                <button
+                                    type="button"
+                                    @click="
+                                        form.details.push({
+                                            key: '',
+                                            value: '',
+                                        })
+                                    "
+                                    class="flex items-center gap-1 text-xs text-primary hover:underline"
+                                >
+                                    <Plus class="h-3 w-3" /> Add Detail
+                                </button>
+                            </div>
+                            <div class="space-y-2">
+                                <div
+                                    v-for="(detail, index) in form.details"
+                                    :key="index"
+                                    class="flex items-start gap-2"
+                                >
+                                    <div class="flex-1">
+                                        <input
+                                            v-model="detail.key"
+                                            type="text"
+                                            placeholder="Label (e.g., Year)"
+                                            class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 text-sm dark:border-sidebar-border"
+                                        />
+                                    </div>
+                                    <div class="flex-[2]">
+                                        <input
+                                            v-model="detail.value"
+                                            type="text"
+                                            placeholder="Value (e.g., 2024)"
+                                            class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 text-sm dark:border-sidebar-border"
+                                        />
+                                    </div>
+                                    <button
+                                        type="button"
+                                        @click="form.details.splice(index, 1)"
+                                        class="rounded p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                                        title="Remove detail"
+                                    >
+                                        <Trash2 class="h-4 w-4" />
+                                    </button>
+                                </div>
+                                <div
+                                    v-if="form.details.length === 0"
+                                    class="py-2 text-xs italic text-muted-foreground"
+                                >
+                                    No details added yet.
+                                </div>
+                            </div>
+                            <div
+                                v-if="form.errors.details"
+                                class="mt-1 text-sm text-red-600"
+                            >
+                                {{ form.errors.details }}
                             </div>
                         </div>
 
