@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,11 +16,12 @@ Route::get('/projects/{project}', [UserController::class, 'project'])->name('pro
 
 Route::get('dashboard', [DashboardController::class, 'show'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
+    Route::post('upload', [UploadController::class, 'store'])->name('admin.upload');
     Route::prefix('blogs')->group(function (): void {
         Route::get('', [BlogController::class, 'show'])->name('admin.blogs');
         Route::get('create', [BlogController::class, 'create'])->name('admin.blogs.create');
         Route::post('', [BlogController::class, 'store'])->name('admin.blogs.store');
-        Route::post('upload-cover', [BlogController::class, 'uploadCover'])->name('admin.blogs.upload-cover');
+        Route::post('upload-cover', [UploadController::class, 'store'])->name('admin.blogs.upload-cover');
         Route::prefix('{blog}')->group(function (): void {
             Route::get('', [BlogController::class, 'edit'])->name('admin.blogs.edit');
             Route::put('', [BlogController::class, 'update'])->name('admin.blogs.update');
@@ -31,7 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (): void {
         Route::get('', [ProjectController::class, 'show'])->name('admin.projects');
         Route::get('create', [ProjectController::class, 'create'])->name('admin.projects.create');
         Route::post('', [ProjectController::class, 'store'])->name('admin.projects.store');
-        Route::post('upload-cover', [ProjectController::class, 'uploadCover'])->name('admin.projects.upload-cover');
+        Route::post('upload-cover', [UploadController::class, 'store'])->name('admin.projects.upload-cover');
         Route::prefix('{project}')->group(function (): void {
             Route::get('', [ProjectController::class, 'edit'])->name('admin.projects.edit');
             Route::put('', [ProjectController::class, 'update'])->name('admin.projects.update');

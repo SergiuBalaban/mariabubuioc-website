@@ -61,24 +61,6 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.edit', $project);
     }
 
-    public function uploadCover(Request $request)
-    {
-        $request->validate([
-            'cover' => 'required|image|max:10240',
-        ]);
-
-        $file = $request->file('cover');
-        $date = now()->format('Y-m-d');
-        $filename = time().'_'.$file->getClientOriginalName();
-        $path = "source/img/projects/{$date}";
-
-        $file->move(public_path($path), $filename);
-
-        return response()->json([
-            'path' => "/{$path}/{$filename}",
-        ]);
-    }
-
     public function destroy(Request $request, Project $project): RedirectResponse
     {
         $project->delete();
