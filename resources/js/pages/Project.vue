@@ -103,11 +103,6 @@ const prevImage = () => {
                             <div
                                 class="rounded-lg border border-[#19140015] bg-gray-50 p-6 dark:border-[#3E3E3A] dark:bg-[#161615]"
                             >
-                                <h3
-                                    class="mb-4 text-lg font-bold tracking-wider uppercase"
-                                >
-                                    Details
-                                </h3>
                                 <dl class="space-y-4">
                                     <div
                                         v-for="(value, label) in props.project
