@@ -76,42 +76,4 @@ class RemoveUnusedImages extends Command
 
         return array_merge($projectCovers, $articleCovers, $projectImages);
     }
-
-    //    public function handle()
-    //    {
-    //        $pathStorage = public_path('storage');
-    //
-    //        $storageFiles = File::allFiles($pathStorage);
-    //        echo "BEFORE CHECK\n";
-    //        echo 'Storage Files: '.count($storageFiles)."\n";
-    //
-    //        $projectCovers = Project::query()->whereNotNull('cover')->pluck('cover')->toArray();
-    //        $articleCovers = Blog::query()->pluck('cover')->toArray();
-    //        $images = array_merge($projectCovers, $articleCovers);
-    //
-    //        Project::query()->whereNotNull('images')->chunk(100, function (Collection $projects) use (&$images) {
-    //            foreach ($projects as $project) {
-    //                foreach ($project->images as $image) {
-    //                    $images[] = $image;
-    //                }
-    //            }
-    //        });
-    //
-    //        foreach ($storageFiles as $file) {
-    //            $remove = true;
-    //            foreach ($images as $image) {
-    //                if (str_contains($image, $file->getFilename())) {
-    //                    $remove = false;
-    //                }
-    //            }
-    //            if ($remove) {
-    //                File::delete($file->getPathname());
-    //            }
-    //        }
-    //
-    //        $storageFiles = File::allFiles($pathStorage);
-    //        echo "AFTER CHECK\n";
-    //        echo 'Storage Files: '.count($storageFiles)."\n";
-    //        $this->info('Unused images removed successfully.');
-    //    }
 }
