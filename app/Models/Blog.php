@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $cover
  * @property string $title
  * @property array|string|null $content
+ * @property Carbon $published_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon $deleted_at
@@ -34,5 +35,11 @@ class Blog extends Model
         'cover',
         'title',
         'content',
+        'published_at',
+    ];
+
+    protected $casts = [
+        'content' => 'array',
+        'published_at' => 'datetime',
     ];
 }

@@ -13,6 +13,7 @@ const props = defineProps<{
             title: string;
             cover: string;
             content: string;
+            published_at: string;
             created_at: string;
             updated_at: string;
         }>;
@@ -119,12 +120,8 @@ onUnmounted(() => {
                                     class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400"
                                 >
                                     <span class="author">{{
-                                        article.created_at
+                                        article.published_at
                                     }}</span>
-                                    <span
-                                        class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
-                                    ></span>
-                                    <span class="category">Uncategorized</span>
                                 </div>
                                 <div
                                     class="line-clamp-2 text-lg leading-relaxed"

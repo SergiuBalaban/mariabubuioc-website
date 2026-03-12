@@ -16,6 +16,7 @@ class BlogFactory extends Factory
             'cover' => 'https://picsum.photos/800/600?random='.$this->faker->numberBetween(1, 1000),
             'title' => $this->faker->unique()->sentence(),
             'content' => $this->faker->paragraphs(3, true),
+            'published_at' => now(),
         ];
     }
 }

@@ -10,6 +10,7 @@ defineProps<{
             title: string;
             cover: string;
             content: string;
+            published_at: string;
             created_at: string;
             updated_at: string;
         };
@@ -46,15 +47,7 @@ defineProps<{
                                 class="flex flex-wrap items-center gap-4 text-sm text-gray-500 dark:text-gray-400"
                             >
                                 <li class="time">
-                                    {{ article.data.created_at }}
-                                </li>
-                                <li
-                                    class="h-1 w-1 rounded-full bg-gray-300 dark:bg-gray-600"
-                                ></li>
-                                <li class="categories">
-                                    <span
-                                        class="rounded bg-gray-100 px-2 py-1 text-xs font-semibold tracking-wider uppercase dark:bg-gray-800"
-                                    >Uncategorized</span>
+                                    {{ article.data.published_at }}
                                 </li>
                             </ul>
                         </div>
