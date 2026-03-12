@@ -39,7 +39,6 @@ class Blog extends Model
     ];
 
     protected $casts = [
-        'content' => 'array',
         'published_at' => 'datetime',
     ];
 }

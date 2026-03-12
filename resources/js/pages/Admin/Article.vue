@@ -13,6 +13,7 @@ interface Blog {
     cover: string | null;
     title: string;
     content: any | null;
+    published_at: string;
     created_at: string;
     updated_at: string;
 }
@@ -34,10 +35,17 @@ const getInitialContent = (content: any) => {
     return JSON.stringify(content, null, 2);
 };
 
+// Helper to format date for input[type=date]
+const formatDateForInput = (date: string | Date | undefined) => {
+    if (!date) return new Date().toISOString().split('T')[0];
+    return new Date(date).toISOString().split('T')[0];
+};
+
 const form = useForm({
     cover: props.blog?.cover || null,
     title: props.blog?.title || '',
     content: getInitialContent(props.blog?.content),
+    published_at: formatDateForInput(props.blog?.published_at),
 });
 
 const submit = () => {
@@ -46,6 +54,11 @@ const submit = () => {
 
         if (form.title !== props.blog.title) data.title = form.title;
         if (form.cover !== props.blog.cover) data.cover = form.cover;
+        if (
+            form.published_at !== formatDateForInput(props.blog.published_at)
+        ) {
+            data.published_at = form.published_at;
+        }
 
         if (form.content !== getInitialContent(props.blog.content)) {
             data.content = form.content;
@@ -126,6 +139,27 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 class="mt-1 text-sm text-red-600"
                             >
                                 {{ form.errors.title }}
+                            </div>
+                        </div>
+
+                        <div>
+                            <label
+                                for="published_at"
+                                class="mb-2 block text-sm font-medium"
+                            >
+                                Publication Date
+                            </label>
+                            <input
+                                id="published_at"
+                                v-model="form.published_at"
+                                type="date"
+                                class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
+                            />
+                            <div
+                                v-if="form.errors.published_at"
+                                class="mt-1 text-sm text-red-600"
+                            >
+                                {{ form.errors.published_at }}
                             </div>
                         </div>
 
