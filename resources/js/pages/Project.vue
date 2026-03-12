@@ -124,7 +124,7 @@ const isUrl = (str: string): boolean => {
                                             {{ label }}
                                         </dt>
                                         <dd class="text-sm">
-                                            <a v-if="isUrl(value)" :href="value" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline dark:text-blue-400">link</a>
+                                            <a v-if="isUrl(value)" :href="value" target="_blank" rel="noopener noreferrer" class="hover:underline">link</a>
                                             <span v-else v-html="value"></span>
                                         </dd>
                                     </div>

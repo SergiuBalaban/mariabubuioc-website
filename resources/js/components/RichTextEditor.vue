@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div
-        class="overflow-hidden rounded-xl border border-sidebar-border/70 bg-white dark:border-sidebar-border dark:bg-gray-900"
+        class="overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
     >
         <!-- Toolbar -->
         <div
@@ -430,7 +430,7 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- Editor Content -->
-        <div class="bg-white dark:bg-gray-900 overflow-y-auto max-h-[500px]">
+        <div class="overflow-y-auto max-h-125">
             <EditorContent v-show="!isHtmlView" :editor="editor" />
             <textarea
                 v-show="isHtmlView"

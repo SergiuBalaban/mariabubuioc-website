@@ -153,7 +153,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                                 id="published_at"
                                 v-model="form.published_at"
                                 type="date"
-                                class="w-full rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
+                                class="rounded border border-sidebar-border/70 bg-transparent px-3 py-2 dark:border-sidebar-border"
                             />
                             <div
                                 v-if="form.errors.published_at"
