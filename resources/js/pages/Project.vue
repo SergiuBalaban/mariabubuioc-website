@@ -56,6 +56,15 @@ const prevImage = () => {
         selectedImageIndex.value = (selectedImageIndex.value - 1 + allImages.value.length) % allImages.value.length;
     }
 };
+
+const isUrl = (str: string): boolean => {
+    try {
+        new URL(str);
+        return true;
+    } catch {
+        return false;
+    }
+};
 </script>
 
 <template>
@@ -115,7 +124,8 @@ const prevImage = () => {
                                             {{ label }}
                                         </dt>
                                         <dd class="text-sm">
-                                            <span v-html="value"></span>
+                                            <a v-if="isUrl(value)" :href="value" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline dark:text-blue-400">link</a>
+                                            <span v-else v-html="value"></span>
                                         </dd>
                                     </div>
                                 </dl>
