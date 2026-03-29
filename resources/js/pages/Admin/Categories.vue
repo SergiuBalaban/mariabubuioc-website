@@ -27,7 +27,7 @@ interface CategoriesProps {
             last_page: number;
             links: Array<{
                 url: string | null;
-                label: string | null;
+                label: string;
                 page: number;
                 active: boolean;
             }>;

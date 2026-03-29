@@ -21,13 +21,13 @@ interface BlogsProps {
             prev: string | null;
             next: string | null;
         }>;
-        meta: Array<{
+        meta: {
             current_page: number;
             from: number;
             last_page: number;
             links: Array<{
                 url: string | null;
-                label: string | null;
+                label: string;
                 page: number;
                 active: boolean;
             }>;
@@ -35,7 +35,7 @@ interface BlogsProps {
             per_page: number;
             to: number;
             total: number;
-        }>;
+        };
     };
 }
 
