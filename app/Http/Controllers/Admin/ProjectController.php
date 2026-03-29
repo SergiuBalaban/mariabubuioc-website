@@ -21,7 +21,7 @@ class ProjectController extends Controller
         $projects = Project::query()->orderByDesc('id')->paginate(10);
         $projectsResource = ProjectResource::collection($projects)->response()->getData();
 
-        return Inertia::render('Admin/Projects', [
+        return Inertia::render('Admin/ProjectList', [
             'projects' => $projectsResource,
         ]);
     }

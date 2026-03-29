@@ -18,7 +18,7 @@ class CategoryController extends Controller
         $categories = Category::query()->orderByDesc('id')->paginate(10);
         $categoriesResource = CategoryResource::collection($categories)->response()->getData();
 
-        return Inertia::render('Admin/Categories', [
+        return Inertia::render('Admin/CategoryList', [
             'categories' => $categoriesResource,
         ]);
     }

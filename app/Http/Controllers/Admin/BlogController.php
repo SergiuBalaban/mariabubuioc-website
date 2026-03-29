@@ -17,7 +17,7 @@ class BlogController extends Controller
         $blogs = Blog::query()->orderByDesc('id')->paginate(10);
         $blogsResource = BlogResource::collection($blogs)->response()->getData();
 
-        return Inertia::render('Admin/Blogs', [
+        return Inertia::render('Admin/BlogList', [
             'blogs' => $blogsResource,
         ]);
     }
