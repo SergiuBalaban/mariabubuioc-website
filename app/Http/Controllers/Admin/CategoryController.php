@@ -7,13 +7,12 @@ use App\Http\Requests\ManageCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class CategoryController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(): Response
     {
         $categories = Category::query()->orderByDesc('id')->paginate(10);
         $categoriesResource = CategoryResource::collection($categories)->response()->getData();
@@ -23,7 +22,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function create(Request $request): Response
+    public function create(): Response
     {
         return Inertia::render('Admin/Category');
     }
@@ -37,7 +36,7 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.edit', $category);
     }
 
-    public function edit(Request $request, Category $category): Response
+    public function edit(Category $category): Response
     {
         return Inertia::render('Admin/Category', [
             'category' => (new CategoryResource($category))->response()->getData()->data,
@@ -53,7 +52,7 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.edit', $category);
     }
 
-    public function destroy(Request $request, Category $category): RedirectResponse
+    public function destroy(Category $category): RedirectResponse
     {
         $category->delete();
 

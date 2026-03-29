@@ -72,7 +72,7 @@
         ],
         "format": [
             "@php artisan config:clear --ansi",
-            "@test:lint",
+            "@lint",
             "@stan",
             "@php artisan test --parallel"
         ],

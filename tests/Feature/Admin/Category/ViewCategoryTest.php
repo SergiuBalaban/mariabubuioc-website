@@ -15,7 +15,7 @@ it('can view categories list', function () {
         ->get(route('admin.categories'))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
-            ->component('Admin/Categories')
+            ->component('Admin/CategoryList')
             ->has('categories.data', 3)
         );
 });

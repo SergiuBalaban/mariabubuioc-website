@@ -12,7 +12,7 @@ use Inertia\Response;
 
 class BlogController extends Controller
 {
-    public function show(Request $request): Response
+    public function show(): Response
     {
         $blogs = Blog::query()->orderByDesc('id')->paginate(10);
         $blogsResource = BlogResource::collection($blogs)->response()->getData();
@@ -40,14 +40,14 @@ class BlogController extends Controller
         return redirect()->route('admin.blogs.edit', $blog);
     }
 
-    public function edit(Request $request, Blog $blog): Response
+    public function edit(Blog $blog): Response
     {
         return Inertia::render('Admin/Article', [
             'blog' => (new BlogResource($blog))->response()->getData()->data,
         ]);
     }
 
-    public function update(Request $request, Blog $blog): RedirectResponse
+    public function update(Blog $blog): RedirectResponse
     {
         $blog->update(request()->validate([
             'cover' => 'nullable|string',
@@ -61,7 +61,7 @@ class BlogController extends Controller
         return redirect()->route('admin.blogs.edit', $blog);
     }
 
-    public function destroy(Request $request, Blog $blog): RedirectResponse
+    public function destroy(Blog $blog): RedirectResponse
     {
         $blog->delete();
 

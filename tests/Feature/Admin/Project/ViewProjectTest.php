@@ -15,7 +15,7 @@ it('can view project list', function () {
         ->get(route('admin.projects'))
         ->assertOk()
         ->assertInertia(fn ($page) => $page
-            ->component('Admin/Projects')
+            ->component('Admin/ProjectList')
             ->has('projects.data', 3)
         );
 });

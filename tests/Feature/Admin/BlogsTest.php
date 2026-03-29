@@ -18,7 +18,7 @@ it('can see admin blogs page as authenticated user', function () {
     $this->actingAs($user)
         ->get('/admin/blogs')
         ->assertOk()
-        ->assertInertia(fn ($page) => $page->component('Admin/Blogs'));
+        ->assertInertia(fn ($page) => $page->component('Admin/BlogList'));
 });
 
 it('can see admin blogs page with paginated articles', function () {
@@ -28,7 +28,7 @@ it('can see admin blogs page with paginated articles', function () {
     $this->actingAs($user)
         ->get('/admin/blogs')
         ->assertOk()
-        ->assertInertia(fn ($page) => $page->component('Admin/Blogs')
+        ->assertInertia(fn ($page) => $page->component('Admin/BlogList')
             ->has('blogs.data', 10)
             ->has('blogs.meta.current_page')
             ->has('blogs.meta.last_page')
@@ -39,7 +39,7 @@ it('can see admin blogs page with paginated articles', function () {
 it('cannot delete blog without authenticated user', function () {
     $blog = Blog::factory()->create();
 
-    $response = $this->delete("/admin/blogs/{$blog->id}");
+    $response = $this->delete("/admin/blogs/$blog->id");
 
     $response->assertRedirect('/login');
     $this->assertDatabaseHas('blogs', ['id' => $blog->id]);
@@ -49,7 +49,7 @@ it('can delete blog with authenticated user', function () {
     $user = User::factory()->create();
     $blog = Blog::factory()->create();
 
-    $response = $this->actingAs($user)->delete("/admin/blogs/{$blog->id}");
+    $response = $this->actingAs($user)->delete("/admin/blogs/$blog->id");
 
     $response->assertRedirect('/admin/blogs');
     $this->assertSoftDeleted($blog);

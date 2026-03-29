@@ -10,13 +10,12 @@ use App\Http\Resources\ProjectResource;
 use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class ProjectController extends Controller
 {
-    public function show(Request $request): Response
+    public function show(): Response
     {
         $projects = Project::query()->orderByDesc('id')->paginate(10);
         $projectsResource = ProjectResource::collection($projects)->response()->getData();
@@ -26,7 +25,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function create(Request $request): Response
+    public function create(): Response
     {
         $categories = Category::all();
         $categoriesResource = CategoryResource::collection($categories)->response()->getData()->data;
@@ -43,7 +42,7 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.edit', $project);
     }
 
-    public function edit(Request $request, Project $project): Response
+    public function edit(Project $project): Response
     {
         $categories = Category::all();
         $categoriesResource = CategoryResource::collection($categories)->response()->getData()->data;
@@ -61,7 +60,7 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.edit', $project);
     }
 
-    public function destroy(Request $request, Project $project): RedirectResponse
+    public function destroy(Project $project): RedirectResponse
     {
         $project->delete();
 
