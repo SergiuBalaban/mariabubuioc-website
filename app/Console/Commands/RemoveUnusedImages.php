@@ -38,7 +38,8 @@ class RemoveUnusedImages extends Command
         }
 
         $beforeCount = count(File::allFiles($pathStorage));
-        $this->logInfo("Starting image cleanup. Total files before: {$beforeCount}");
+        $today = now()->format('Y-m-d');
+        $this->logInfo("Starting image cleanup ($today). Total files before: $beforeCount");
 
         $usedImagesLookup = $this->getUsedImagesLookup();
         $storageFiles = File::allFiles($pathStorage);
